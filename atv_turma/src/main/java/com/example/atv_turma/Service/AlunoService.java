@@ -1,5 +1,8 @@
 package com.example.atv_turma.Service;
 
+import com.example.atv_turma.Entity.Aluno;
+import com.example.atv_turma.Dto.Aluno.AlunoDto;
+import com.example.atv_turma.Repository.AlunoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,80 +12,65 @@ import java.util.Optional;
 @Service
 public class AlunoService {
     @Autowired
-    private UsuarioRepository usuariorepository;
+    private AlunoRepository alunorepository;
 
-    public Usuario fromDTO(UsuarioDto usuarioDto){
-        Usuario usuario = new Usuario();
-        usuario.setNome(usuarioDto.getNome());
-        usuario.setSobrenome(usuarioDto.getSobrenome());
-        usuario.setCpf(usuarioDto.getCpf());
-        usuario.setEmail(usuarioDto.getEmail());
-        usuario.setSenha(usuarioDto.getSenha());
-        usuario.setUsername(usuarioDto.getUsername());
-        usuario.setDataNascimento(usuarioDto.getDataNascimento());
-
-        return usuario;
+    public Aluno fromDTO(AlunoDto alunoDto){
+        Aluno aluno = new Aluno();
+        aluno.setNome(alunoDto.getNome());
+        aluno.setCpf(alunoDto.getCpf());
+        return aluno;
     }
 
-    public UsuarioDto toDTO(Usuario usuario){
-        UsuarioDto usuarioDTO = new UsuarioDto();
-        usuarioDTO.setId(usuario.getId());
-        usuarioDTO.setNome(usuario.getNome());
-        usuarioDTO.setSobrenome(usuario.getSobrenome());
-        usuarioDTO.setCpf(usuario.getCpf());
-        usuarioDTO.setEmail(usuario.getEmail());
-        usuarioDTO.setSenha(usuario.getSenha());
-        usuarioDTO.setUsername(usuario.getUsername());
-        usuarioDTO.setDataNascimento(usuario.getDataNascimento());
-
-        return usuarioDTO;
+    public AlunoDto toDTO(Aluno aluno){
+        AlunoDto alunoDTO = new AlunoDto();
+        alunoDTO.setId(aluno.getId());
+        alunoDTO.setNome(aluno.getNome());
+        alunoDTO.setCpf(aluno.getCpf());
+        return alunoDTO;
     }
 
-    public List<Usuario> getAll(){
-        return usuariorepository.findAll();
+    public List<Aluno> getAll(){
+        return alunorepository.findAll();
     }
 
 
-    public List<Usuario> getByCpf(String cpf){
-        return usuariorepository.findByCpf(cpf);
+    public List<Aluno> getByCpf(String cpf){
+        return alunorepository.findByCpf(cpf);
     }
 
-    public Optional<UsuarioDto> getById(Long id){
-        Optional<Usuario> optionalUsuario = usuariorepository.findById(id);
-        if(optionalUsuario.isPresent()){
-            return Optional.of(this.toDTO(optionalUsuario.get()));
+    public Optional<AlunoDto> getById(Long id){
+        Optional<Aluno> optionalAluno = alunorepository.findById(id);
+        if(optionalAluno.isPresent()){
+            return Optional.of(this.toDTO(optionalAluno.get()));
         }else {
             return Optional.empty();
         }
     }
 
-    public UsuarioDto saveDto(UsuarioDto usuarioDTO){
-        Usuario usuario = this.fromDTO(usuarioDTO);
-        Usuario usuarioBd = usuariorepository.save(usuario);
-        return this.toDTO(usuarioBd);
+    public AlunoDto saveDto(AlunoDto alunoDTO){
+        Aluno aluno = this.fromDTO(alunoDTO);
+        Aluno alunoBd = alunorepository.save(aluno);
+        return this.toDTO(alunoBd);
     }
 
-    public Optional<UsuarioDto> updateUsuario(Long id, UsuarioDto usuarioDTO){
-        Optional<Usuario> optionalUsuario = usuariorepository.findById(id);
-        if(optionalUsuario.isPresent()){
-            Usuario usuario = optionalUsuario.get();
-            usuario.setNome(usuarioDTO.getNome());
-            usuario.setSobrenome(usuarioDTO.getSobrenome());
-            usuario.setCpf(usuarioDTO.getCpf());
-            usuario.setEmail(usuarioDTO.getEmail());
-            usuario.setDataNascimento(usuarioDTO.getDataNascimento());
+    public Optional<AlunoDto> updateAluno(Long id, AlunoDto alunoDTO){
+        Optional<Aluno> optionalAluno = alunorepository.findById(id);
+        if(optionalAluno.isPresent()){
+            Aluno aluno = optionalAluno.get();
+            aluno.setNome(alunoDTO.getNome());
+            aluno.setCpf(alunoDTO.getCpf());
+            
+            Aluno alunoUpdate = alunorepository.save(aluno);
 
-            Usuario usuarioUpdate = usuariorepository.save(usuario);
-
-            return Optional.of(this.toDTO(usuarioUpdate));
+            return Optional.of(this.toDTO(alunoUpdate));
         }else {
             return Optional.empty();
         }
     }
-   
+
     public boolean delete(Long id){
-        if(usuariorepository.existsById(id)){
-            usuariorepository.deleteById(id);
+        if(alunorepository.existsById(id)){
+            alunorepository.deleteById(id);
             return true;
         }else {
             return false;
