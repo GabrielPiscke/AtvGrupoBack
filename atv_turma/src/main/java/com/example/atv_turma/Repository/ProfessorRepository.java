@@ -8,6 +8,4 @@ import java.util.List;
 
 @Repository
 public interface ProfessorRepository extends JpaRepository<Professor, Long> {
-
-    List<Professor> findByNome (String nome);
 }
