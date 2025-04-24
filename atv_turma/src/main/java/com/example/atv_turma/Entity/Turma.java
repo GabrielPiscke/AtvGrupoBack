@@ -24,6 +24,6 @@ public class Turma implements Serializable {
     @JoinColumn(name = "id_professor", referencedColumnName = "id")
     private Professor professor;
 
-   
+
     private List<Aluno> alunos;
 }

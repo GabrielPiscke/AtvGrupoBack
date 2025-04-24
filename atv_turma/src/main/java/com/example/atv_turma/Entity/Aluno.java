@@ -18,6 +18,7 @@ public class Aluno implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String nome;
+
     private String cpf;
 
     @ManyToMany(mappedBy = "alunos")
