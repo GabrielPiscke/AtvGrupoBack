@@ -1,5 +1,8 @@
 package com.example.atv_turma.Service;
 
+import com.example.atv_turma.Dto.TurmaDto;
+import com.example.atv_turma.Entity.Turma;
+import com.example.atv_turma.Repository.TurmaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,81 +11,82 @@ import java.util.Optional;
 
 @Service
 public class TurmaService {
+
     @Autowired
-    private UsuarioRepository usuariorepository;
+    private TurmaRepository turmarepository;
 
-    public Usuario fromDTO(UsuarioDto usuarioDto){
-        Usuario usuario = new Usuario();
-        usuario.setNome(usuarioDto.getNome());
-        usuario.setSobrenome(usuarioDto.getSobrenome());
-        usuario.setCpf(usuarioDto.getCpf());
-        usuario.setEmail(usuarioDto.getEmail());
-        usuario.setSenha(usuarioDto.getSenha());
-        usuario.setUsername(usuarioDto.getUsername());
-        usuario.setDataNascimento(usuarioDto.getDataNascimento());
+    public Turma fromDTO(TurmaDto turmaDto){
+        Turma turma = new Turma();
+        turma.setNome(turmaDto.getNome());
+        turma.setSobrenome(turmaDto.getSobrenome());
+        turma.setCpf(turmaDto.getCpf());
+        turma.setEmail(turmaDto.getEmail());
+        turma.setSenha(turmaDto.getSenha());
+        turma.setUsername(turmaDto.getUsername());
+        turma.setDataNascimento(turmaDto.getDataNascimento());
 
-        return usuario;
+        return turma;
     }
 
-    public UsuarioDto toDTO(Usuario usuario){
-        UsuarioDto usuarioDTO = new UsuarioDto();
-        usuarioDTO.setId(usuario.getId());
-        usuarioDTO.setNome(usuario.getNome());
-        usuarioDTO.setSobrenome(usuario.getSobrenome());
-        usuarioDTO.setCpf(usuario.getCpf());
-        usuarioDTO.setEmail(usuario.getEmail());
-        usuarioDTO.setSenha(usuario.getSenha());
-        usuarioDTO.setUsername(usuario.getUsername());
-        usuarioDTO.setDataNascimento(usuario.getDataNascimento());
+    public TurmaDto toDTO(Turma turma){
+        TurmaDto turmaDTO = new TurmaDto();
+        turmaDTO.setId(turma.getId());
+        turmaDTO.setNome(turma.getNome());
+        turmaDTO.setSobrenome(turma.getSobrenome());
+        turmaDTO.setCpf(turma.getCpf());
+        turmaDTO.setEmail(turma.getEmail());
+        turmaDTO.setSenha(turma.getSenha());
+        turmaDTO.setUsername(turma.getUsername());
+        turmaDTO.setDataNascimento(turma.getDataNascimento());
 
-        return usuarioDTO;
+        return turmaDTO;
     }
 
-    public List<Usuario> getAll(){
-        return usuariorepository.findAll();
+    public List<Turma> getAll(){
+        return turmarepository.findAll();
     }
 
-    public List<Usuario> getByNome(String nome){
-        return usuariorepository.findAllByNome(nome);
+    public List<Turma> getByNome(String nome){
+        return turmarepository.findAllByNome(nome);
 
     }
 
-    public Optional<UsuarioDto> getById(Long id){
-        Optional<Usuario> optionalUsuario = usuariorepository.findById(id);
-        if(optionalUsuario.isPresent()){
-            return Optional.of(this.toDTO(optionalUsuario.get()));
+    public Optional<TurmaDto> getById(Long id){
+        Optional<Turma> optionalTurma = turmarepository.findById(id);
+        if(optionalTurma.isPresent()){
+            return Optional.of(this.toDTO(optionalTurma.get()));
         }else {
             return Optional.empty();
         }
     }
 
-    public UsuarioDto saveDto(UsuarioDto usuarioDTO){
-        Usuario usuario = this.fromDTO(usuarioDTO);
-        Usuario usuarioBd = usuariorepository.save(usuario);
-        return this.toDTO(usuarioBd);
+    public TurmaDto saveDto(TurmaDto turmaDTO){
+        Turma turma = this.fromDTO(turmaDTO);
+        Turma turmaBd = turmarepository.save(turma);
+        return this.toDTO(turmaBd);
     }
 
-    public Optional<UsuarioDto> updateUsuario(Long id, UsuarioDto usuarioDTO){
-        Optional<Usuario> optionalUsuario = usuariorepository.findById(id);
-        if(optionalUsuario.isPresent()){
-            Usuario usuario = optionalUsuario.get();
-            usuario.setNome(usuarioDTO.getNome());
-            usuario.setSobrenome(usuarioDTO.getSobrenome());
-            usuario.setCpf(usuarioDTO.getCpf());
-            usuario.setEmail(usuarioDTO.getEmail());
-            usuario.setDataNascimento(usuarioDTO.getDataNascimento());
+    public Optional<TurmaDto> updateTurma(Long id, TurmaDto turmaDTO){
+        Optional<Turma> optionalTurma = turmarepository.findById(id);
+        if(optionalTurma.isPresent()){
+            Turma turma = optionalTurma.get();
+            turma.setNome(turmaDTO.getNome());
+            turma.setSobrenome(turmaDTO.getSobrenome());
+            turma.setCpf(turmaDTO.getCpf());
+            turma.setEmail(turmaDTO.getEmail());
+            turma.setDataNascimento(turmaDTO.getDataNascimento());
 
-            Usuario usuarioUpdate = usuariorepository.save(usuario);
+            Turma turmaUpdate = turmarepository.save(turma);
 
-            return Optional.of(this.toDTO(usuarioUpdate));
+            return Optional.of(this.toDTO(turmaUpdate));
         }else {
             return Optional.empty();
         }
     }
 
     public boolean delete(Long id){
-        if(usuariorepository.existsById(id)){
-            usuariorepository.deleteById(id);
+        if(turmarepository.existsById(id)){
+            turmarepository.deleteById(id);
             return true;
         }else {
             return false;

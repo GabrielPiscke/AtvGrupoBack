@@ -1,5 +1,8 @@
 package com.example.atv_turma.Service;
 
+import com.example.atv_turma.Dto.ProfessorDto;
+import com.example.atv_turma.Entity.Professor;
+import com.example.atv_turma.Repository.ProfessorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,80 +12,67 @@ import java.util.Optional;
 @Service
 public class ProfessorService {
     @Autowired
-    private UsuarioRepository usuariorepository;
+    private ProfessorRepository professorrepository;
 
-    public Usuario fromDTO(UsuarioDto usuarioDto){
-        Usuario usuario = new Usuario();
-        usuario.setNome(usuarioDto.getNome());
-        usuario.setSobrenome(usuarioDto.getSobrenome());
-        usuario.setCpf(usuarioDto.getCpf());
-        usuario.setEmail(usuarioDto.getEmail());
-        usuario.setSenha(usuarioDto.getSenha());
-        usuario.setUsername(usuarioDto.getUsername());
-        usuario.setDataNascimento(usuarioDto.getDataNascimento());
+    public Professor fromDTO(ProfessorDto professorDto){
+        Professor professor = new Professor();
+        professor.setNome(professorDto.getNome());
+        professor.setSobrenome(professorDto.getSobrenome());
 
-        return usuario;
+        return professor;
     }
 
-    public UsuarioDto toDTO(Usuario usuario){
-        UsuarioDto usuarioDTO = new UsuarioDto();
-        usuarioDTO.setId(usuario.getId());
-        usuarioDTO.setNome(usuario.getNome());
-        usuarioDTO.setSobrenome(usuario.getSobrenome());
-        usuarioDTO.setCpf(usuario.getCpf());
-        usuarioDTO.setEmail(usuario.getEmail());
-        usuarioDTO.setSenha(usuario.getSenha());
-        usuarioDTO.setUsername(usuario.getUsername());
-        usuarioDTO.setDataNascimento(usuario.getDataNascimento());
+    public ProfessorDto toDTO(Professor professor){
+        ProfessorDto professorDTO = new ProfessorDto();
+        professorDTO.setId(professor.getId());
+        professorDTO.setNome(professor.getNome());
+        professorDTO.setSobrenome(professor.getSobrenome());
 
-        return usuarioDTO;
+        return professorDTO;
     }
 
-    public List<Usuario> getAll(){
-        return usuariorepository.findAll();
+    public List<Professor> getAll(){
+        return professorrepository.findAll();
     }
 
-    public List<Usuario> getByNome(String nome){
-        return usuariorepository.findAllByNome(nome);
+    public List<Professor> getByNome(String nome){
+        return professorrepository.findAllByNome(nome);
 
     }
 
-    public Optional<UsuarioDto> getById(Long id){
-        Optional<Usuario> optionalUsuario = usuariorepository.findById(id);
-        if(optionalUsuario.isPresent()){
-            return Optional.of(this.toDTO(optionalUsuario.get()));
+    public Optional<ProfessorDto> getById(Long id){
+        Optional<Professor> optionalProfessor = professorrepository.findById(id);
+        if(optionalProfessor.isPresent()){
+            return Optional.of(this.toDTO(optionalProfessor.get()));
         }else {
             return Optional.empty();
         }
     }
 
-    public UsuarioDto saveDto(UsuarioDto usuarioDTO){
-        Usuario usuario = this.fromDTO(usuarioDTO);
-        Usuario usuarioBd = usuariorepository.save(usuario);
-        return this.toDTO(usuarioBd);
+    public ProfessorDto saveDto(ProfessorDto professorDTO){
+        Professor professor = this.fromDTO(professorDTO);
+        Professor professorBd = professorrepository.save(professor);
+        return this.toDTO(professorBd);
     }
 
-    public Optional<UsuarioDto> updateUsuario(Long id, UsuarioDto usuarioDTO){
-        Optional<Usuario> optionalUsuario = usuariorepository.findById(id);
-        if(optionalUsuario.isPresent()){
-            Usuario usuario = optionalUsuario.get();
-            usuario.setNome(usuarioDTO.getNome());
-            usuario.setSobrenome(usuarioDTO.getSobrenome());
-            usuario.setCpf(usuarioDTO.getCpf());
-            usuario.setEmail(usuarioDTO.getEmail());
-            usuario.setDataNascimento(usuarioDTO.getDataNascimento());
+    public Optional<ProfessorDto> updateProfessor(Long id, ProfessorDto professorDTO){
+        Optional<Professor> optionalProfessor = professorrepository.findById(id);
+        if(optionalProfessor.isPresent()){
+            Professor professor = optionalProfessor.get();
+            professor.setNome(professorDTO.getNome());
+            professor.setSobrenome(professorDTO.getSobrenome());
 
-            Usuario usuarioUpdate = usuariorepository.save(usuario);
+            Professor professorUpdate = professorrepository.save(professor);
 
-            return Optional.of(this.toDTO(usuarioUpdate));
+            return Optional.of(this.toDTO(professorUpdate));
         }else {
             return Optional.empty();
         }
     }
 
     public boolean delete(Long id){
-        if(usuariorepository.existsById(id)){
-            usuariorepository.deleteById(id);
+        if(professorrepository.existsById(id)){
+            professorrepository.deleteById(id);
             return true;
         }else {
             return false;
