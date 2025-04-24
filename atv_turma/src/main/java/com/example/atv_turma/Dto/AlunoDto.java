@@ -14,22 +14,5 @@ public class AlunoDto  implements Serializable {
         private long id;
         private String nome;
         private String cpf;
-
-
-        public Aluno toAluno(){
-            return new Aluno(
-                    this.id,
-                    this.nome,
-                   this.cpf
-            );
-        }
-
-        public AlunoDto fromAluno(Aluno aluno){
-            return new AlunoDto(
-                    aluno.getId(),
-                    aluno.getNome(),
-                    aluno.getCpf()
-
-            );
-        }
+        
 }

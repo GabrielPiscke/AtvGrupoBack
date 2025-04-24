@@ -16,21 +16,5 @@ public class ProfessorDto implements Serializable {
     private String sobrenome;
 
 
-    public  toProfessor(){
-        return new  Professor(
-                this.id,
-                this.nome,
-                this.sobrenome
-
-        );
-    }
-
-    public ProfessorDto fromProfessor(Professor professor){
-        return new ProfessorDto(
-                professor.getId(),
-                professor.getNome(),
-                professor.getSobrenome()
-        );
-    }
 
 }

@@ -19,6 +19,8 @@ public class Professor implements Serializable{
     private long id;
     private String nome;
     private String sobrenome;
+
+
     @OneToMany(mappedBy = "professor")
     @JsonIgnore
     private List<Turma> tuma;

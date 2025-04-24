@@ -18,25 +18,10 @@ public class TurmaDto implements Serializable {
         private int numeroSala;
         private String nome;
 
-        private List<Aluno> alunos;
-
-        public Turma toTurma(){
-            return new Turma(
-                    this.id,
-                    this.
-                    this.,
+      private List<Aluno> alunos;
 
 
-            );
-        }
 
-        public EmprestimoDTO fromEmprestimo(Emprestimo emprestimo){
-            return new EmprestimoDTO(
-                    emprestimo.getId(),
-                    emprestimo.getDataInicial(),
-                    emprestimo.getDataFinal(),
-                    emprestimo.getCliente(),
-                    emprestimo.getLivros()
-            );
-        }
+
+
 }

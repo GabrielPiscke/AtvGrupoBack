@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Data
@@ -23,11 +24,11 @@ public class Turma implements Serializable {
     @JoinColumn(name = "id_professor", referencedColumnName = "id")
     private Professor professor;
 
-    @ManyToMany
+    //@OneToMany mudar
     @JoinTable(
             name = "turma_aluno",
-            joinColumns = @JoinColumn(name = "emprestimo_id"),
-            inverseJoinColumns = @JoinColumn(name = "livro_id")
+            joinColumns = @JoinColumn(name = "turma_id"),
+            inverseJoinColumns = @JoinColumn(name = "aluno_id")
     )
-    private List<Livro> livros;
+    private List<Aluno> alunos;
 }
