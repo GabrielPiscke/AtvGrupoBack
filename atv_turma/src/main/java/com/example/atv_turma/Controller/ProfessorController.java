@@ -2,7 +2,6 @@ package com.example.atv_turma.Controller;
 
 
 import com.example.atv_turma.Dto.ProfessorDto;
-import com.example.atv_turma.Entity.Aluno;
 import com.example.atv_turma.Entity.Professor;
 import com.example.atv_turma.Service.ProfessorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +20,7 @@ public class ProfessorController {
     private ProfessorService professorService;
 
     @GetMapping
-    public List<Aluno> getAll(@RequestParam(required = false)String nome)
+    public List<Professor> getAll(@RequestParam(required = false)String nome)
     {
         if (nome != null && !nome.isEmpty()) {
             return professorService.getByNome(nome);
@@ -42,13 +41,13 @@ public class ProfessorController {
 
     @PostMapping
     public ResponseEntity<ProfessorDto> create(@RequestBody ProfessorDto professorDto){
-        ProfessorDto professorDtoSave  = professorService.create(professorDto);
+        ProfessorDto professorDtoSave  = professorService.saveDto(professorDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(professorDtoSave);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<ProfessorDto> update(@PathVariable Long id, @RequestBody ProfessorDto professorDto){
-        Optional<ProfessorDto> professorDtoOptional = professorService.up(id, professorDto);
+        Optional<ProfessorDto> professorDtoOptional = professorService.updateProfessor(id, professorDto);
         if(professorDtoOptional.isPresent()){
             return ResponseEntity.ok(professorDtoOptional.get());
         }else{

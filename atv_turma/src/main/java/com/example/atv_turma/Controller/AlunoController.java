@@ -42,7 +42,7 @@ public class AlunoController {
 
     @PostMapping
     public ResponseEntity<AlunoDto> create(@RequestBody AlunoDto alunoDto){
-        AlunoDto alunoDto1 = alunoService.create(alunoDto);
+        AlunoDto alunoDto1 = alunoService.saveDto(alunoDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(alunoDto1);
     }
 
