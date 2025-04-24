@@ -1,7 +1,7 @@
 package com.example.atv_turma.Service;
 
 import com.example.atv_turma.Entity.Aluno;
-import com.example.atv_turma.Dto.Aluno.AlunoDto;
+import com.example.atv_turma.Dto.AlunoDto;
 import com.example.atv_turma.Repository.AlunoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -59,7 +59,7 @@ public class AlunoService {
             Aluno aluno = optionalAluno.get();
             aluno.setNome(alunoDTO.getNome());
             aluno.setCpf(alunoDTO.getCpf());
-            
+
             Aluno alunoUpdate = alunorepository.save(aluno);
 
             return Optional.of(this.toDTO(alunoUpdate));
