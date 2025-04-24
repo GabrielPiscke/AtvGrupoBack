@@ -24,7 +24,6 @@ public class AlunoController {
          if (cpf != null && !cpf.isEmpty()) {
             return alunoService.getByCpf(cpf);
         }
-
         return alunoService.getAll();
     }
 
