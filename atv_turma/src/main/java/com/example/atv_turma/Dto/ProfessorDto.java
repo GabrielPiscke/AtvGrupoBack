@@ -15,6 +15,4 @@ public class ProfessorDto implements Serializable {
     private String nome;
     private String sobrenome;
 
-
-
 }

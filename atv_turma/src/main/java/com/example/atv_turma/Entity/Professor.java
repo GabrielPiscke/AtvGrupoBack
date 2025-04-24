@@ -23,7 +23,7 @@ public class Professor implements Serializable{
 
     @OneToMany(mappedBy = "professor")
     @JsonIgnore
-    private List<Turma> tuma;
+    private List<Turma> turmas;
 
     public Professor(Long id, String nome, String sobrenome){
         this.id = id;
