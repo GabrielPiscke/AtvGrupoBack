@@ -24,11 +24,6 @@ public class Turma implements Serializable {
     @JoinColumn(name = "id_professor", referencedColumnName = "id")
     private Professor professor;
 
-    //@OneToMany mudar
-    @JoinTable(
-            name = "turma_aluno",
-            joinColumns = @JoinColumn(name = "turma_id"),
-            inverseJoinColumns = @JoinColumn(name = "aluno_id")
-    )
+   
     private List<Aluno> alunos;
 }
