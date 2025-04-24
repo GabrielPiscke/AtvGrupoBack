@@ -24,10 +24,7 @@ public class Aluno implements Serializable{
 
     @ManyToOne
     @JoinColumn(name = "id_turma", referencedColumnName = "id")
-<<<<<<< HEAD
 
-=======
->>>>>>> d05963e301a7db7ab3d55bf45625b2a79840ab0b
     @JsonIgnore
     private Turma turma;
 
