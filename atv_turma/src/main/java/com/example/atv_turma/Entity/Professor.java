@@ -1,5 +1,6 @@
 package com.example.atv_turma.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -20,8 +21,8 @@ public class Professor implements Serializable{
     private String nome;
     private String sobrenome;
 
+    @OneToMany(mappedBy = "professor", cascade = CascadeType.ALL)
 
-    @OneToMany(mappedBy = "professor")
     @JsonIgnore
     private List<Turma> turmas;
 
@@ -29,7 +30,6 @@ public class Professor implements Serializable{
         this.id = id;
         this.nome = nome;
         this.sobrenome = sobrenome;
-
     }
 
 }

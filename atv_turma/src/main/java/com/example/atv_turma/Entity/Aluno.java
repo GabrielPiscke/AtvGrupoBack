@@ -1,5 +1,6 @@
 package com.example.atv_turma.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -18,12 +19,14 @@ public class Aluno implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String nome;
-
+    @Column(unique = true)
     private String cpf;
 
-    @ManyToMany(mappedBy = "alunos")
+    @ManyToOne
+    @JoinColumn(name = "id_turma", referencedColumnName = "id")
+
     @JsonIgnore
-    private List<Turma> turmas;
+    private Turma turma;
 
     public Aluno(Long id, String nome, String cpf){
         this.id = id;
