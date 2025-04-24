@@ -18,13 +18,10 @@ public class TurmaService {
     public Turma fromDTO(TurmaDto turmaDto){
         Turma turma = new Turma();
         turma.setNome(turmaDto.getNome());
-        turma.setSobrenome(turmaDto.getSobrenome());
-        turma.setCpf(turmaDto.getCpf());
-        turma.setEmail(turmaDto.getEmail());
-        turma.setSenha(turmaDto.getSenha());
-        turma.setUsername(turmaDto.getUsername());
-        turma.setDataNascimento(turmaDto.getDataNascimento());
-
+        turma.setSigla(turmaDto.getSigla());
+        turma.setNumeroSala(turmaDto.getNumeroSala());
+        turma.setProfessor(turmaDto.getProfessror());
+        turma.setAlunos(turmaDto.getAlunos());
         return turma;
     }
 
@@ -32,12 +29,10 @@ public class TurmaService {
         TurmaDto turmaDTO = new TurmaDto();
         turmaDTO.setId(turma.getId());
         turmaDTO.setNome(turma.getNome());
-        turmaDTO.setSobrenome(turma.getSobrenome());
-        turmaDTO.setCpf(turma.getCpf());
-        turmaDTO.setEmail(turma.getEmail());
-        turmaDTO.setSenha(turma.getSenha());
-        turmaDTO.setUsername(turma.getUsername());
-        turmaDTO.setDataNascimento(turma.getDataNascimento());
+        turmaDTO.setSigla(turma.getSigla());
+        turmaDTO.setNumeroSala(turma.getNumeroSala());
+        turmaDTO.setProfessor(turma.getProfessor());
+        turmaDTO.setAlunos(turma.getAlunos());
 
         return turmaDTO;
     }
@@ -71,10 +66,9 @@ public class TurmaService {
         if(optionalTurma.isPresent()){
             Turma turma = optionalTurma.get();
             turma.setNome(turmaDTO.getNome());
-            turma.setSobrenome(turmaDTO.getSobrenome());
-            turma.setCpf(turmaDTO.getCpf());
-            turma.setEmail(turmaDTO.getEmail());
-            turma.setDataNascimento(turmaDTO.getDataNascimento());
+            turma.setSigla(turmaDTO.getSigla());
+            turma.setNumeroSala(turmaDTO.getNumeroSala());
+            turma.setProfessor(turmaDTO.getProfessor());
 
             Turma turmaUpdate = turmarepository.save(turma);
 
