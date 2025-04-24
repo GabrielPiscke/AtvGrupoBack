@@ -1,6 +1,7 @@
 package com.example.atv_turma.Dto;
 
 import com.example.atv_turma.Entity.Aluno;
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +14,7 @@ import java.io.Serializable;
 public class AlunoDto  implements Serializable {
         private long id;
         private String nome;
+        @Column(unique = true)
         private String cpf;
 
 }

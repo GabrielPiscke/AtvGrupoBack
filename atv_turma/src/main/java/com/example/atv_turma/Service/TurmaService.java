@@ -21,7 +21,6 @@ public class TurmaService {
         turma.setSigla(turmaDto.getSigla());
         turma.setNumeroSala(turmaDto.getNumeroSala());
         turma.setProfessor(turmaDto.getProfessor());
-        turma.setAlunos(turmaDto.getAlunos());
         return turma;
     }
 
