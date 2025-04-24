@@ -1,9 +1,6 @@
 package com.example.atv_turma.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,4 +18,16 @@ public class Turma implements Serializable {
     private String sigla;
     private int numeroSala;
     private String nome;
+
+    @ManyToOne
+    @JoinColumn(name = "id_professor", referencedColumnName = "id")
+    private Professor professor;
+
+    @ManyToMany
+    @JoinTable(
+            name = "turma_aluno",
+            joinColumns = @JoinColumn(name = "emprestimo_id"),
+            inverseJoinColumns = @JoinColumn(name = "livro_id")
+    )
+    private List<Livro> livros;
 }
