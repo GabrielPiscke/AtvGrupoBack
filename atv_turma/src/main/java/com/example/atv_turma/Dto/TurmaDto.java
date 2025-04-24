@@ -3,6 +3,7 @@ package com.example.atv_turma.Dto;
 import com.example.atv_turma.Entity.Aluno;
 import com.example.atv_turma.Entity.Professor;
 import com.example.atv_turma.Entity.Turma;
+import jakarta.persistence.Column;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 public class TurmaDto implements Serializable {
         private long id;
+        @Column(unique = true)
         private String sigla;
         private int numeroSala;
         private String nome;
