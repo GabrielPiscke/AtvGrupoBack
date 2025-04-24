@@ -20,7 +20,7 @@ public class TurmaService {
         turma.setNome(turmaDto.getNome());
         turma.setSigla(turmaDto.getSigla());
         turma.setNumeroSala(turmaDto.getNumeroSala());
-        turma.setProfessor(turmaDto.getProfessror());
+        turma.setProfessor(turmaDto.getProfessor());
         turma.setAlunos(turmaDto.getAlunos());
         return turma;
     }
