@@ -1,4 +1,36 @@
 package com.example.atv_turma.Dto;
 
-public class ProfessorDto {
+import com.example.atv_turma.Entity.Professor;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class ProfessorDto implements Serializable {
+    private long id;
+    private String nome;
+    private String sobrenome;
+
+
+    public  toProfessor(){
+        return new  Professor(
+                this.id,
+                this.nome,
+                this.sobrenome
+
+        );
+    }
+
+    public ProfessorDto fromProfessor(Professor professor){
+        return new ProfessorDto(
+                professor.getId(),
+                professor.getNome(),
+                professor.getSobrenome()
+        );
+    }
+
 }
