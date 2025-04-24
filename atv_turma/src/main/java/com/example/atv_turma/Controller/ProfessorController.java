@@ -20,12 +20,10 @@ public class ProfessorController {
     private ProfessorService professorService;
 
     @GetMapping
-    public List<Professor> getAll(@RequestParam(required = false)String nome)
-    {
+    public List<Professor> getAll(@RequestParam(required = false)String nome) {
         if (nome != null && !nome.isEmpty()) {
             return professorService.getByNome(nome);
         }
-
         return professorService.getAll();
     }
 
@@ -63,8 +61,5 @@ public class ProfessorController {
             return ResponseEntity.notFound().build();
         }
     }
-
-
-
 
 }

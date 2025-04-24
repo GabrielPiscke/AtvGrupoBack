@@ -21,12 +21,10 @@ public class TurmaController {
     TurmaService turmaService;
 
     @GetMapping
-    public List<Turma> getAll(@RequestParam(required = false)String nome)
-    {
+    public List<Turma> getAll(@RequestParam(required = false)String nome) {
         if (nome != null && !nome.isEmpty()) {
             return turmaService.getByNome(nome);
         }
-
         return turmaService.getAll();
     }
 
@@ -64,6 +62,5 @@ public class TurmaController {
             return ResponseEntity.notFound().build();
         }
     }
-
 
 }
