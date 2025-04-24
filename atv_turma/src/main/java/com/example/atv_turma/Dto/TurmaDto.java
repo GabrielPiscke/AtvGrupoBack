@@ -20,9 +20,4 @@ public class TurmaDto implements Serializable {
         private String nome;
         private List<Aluno> alunos;
         private Professor professor;
-
-
-
-
-
 }
