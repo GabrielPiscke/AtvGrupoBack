@@ -14,5 +14,5 @@ public class AlunoDto  implements Serializable {
         private long id;
         private String nome;
         private String cpf;
-        
+
 }

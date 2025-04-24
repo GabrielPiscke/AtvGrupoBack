@@ -1,6 +1,7 @@
 package com.example.atv_turma.Dto;
 
 import com.example.atv_turma.Entity.Aluno;
+import com.example.atv_turma.Entity.Professor;
 import com.example.atv_turma.Entity.Turma;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,8 +18,8 @@ public class TurmaDto implements Serializable {
         private String sigla;
         private int numeroSala;
         private String nome;
-
-      private List<Aluno> alunos;
+        private List<Aluno> alunos;
+        private Professor professor;
 
 
 
