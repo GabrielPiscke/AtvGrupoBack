@@ -20,7 +20,7 @@ public class Aluno implements Serializable{
     private String nome;
     private String cpf;
 
-    @ManyToMany(mappedBy = "aluno")
+    @ManyToMany(mappedBy = "alunos")
     @JsonIgnore
     private List<Turma> turmas;
 
