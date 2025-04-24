@@ -19,8 +19,8 @@
     <hr>
 
     <h2>Lista de Professores</h2>
-    <button id="carregarClientes">Carregar Professor</button>
-    <ul id="listaClientes"></ul>
+    <button id="carregarProfessores">Carregar Professor</button>
+    <ul id="listaProfessores"></ul>
 
     <script>
         // ## Funções para enviar Professor(POST)
@@ -28,7 +28,6 @@
             let formData = {
                 nome: document.getElementById("nome").value,
                 sobrenome: document.getElementById("sobrenome").value,
-                cpf: document.getElementById("cpf").value,
             };
 
             return formData
@@ -40,7 +39,7 @@
             let formData = criarObjetoParaEnviar();
             
             try {
-                let response = await fetch("http://localhost:8080/turma", {
+                let response = await fetch("http://localhost:8080/prfessor", {
                 method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(formData)
@@ -67,7 +66,7 @@
             lista.innerHTML = "";
             data.forEach(professor => {
                 let item = document.createElement("li");
-                item.textContent = `ID: ${professor.id} - Nome: ${professor.nome} - Sobrenome: ${professor.sobrenome};
+                item.textContent = `ID: ${professor.id} - Nome: ${professor.nome} - Sobrenome: ${professor.sobrenome}`;
                 
                 // botão de editar
                 let btnLink = document.createElement("button");
@@ -92,10 +91,10 @@
             });
         }
         
-        async function getClientes() {
+        async function getProfessor() {
 
             try {
-                let response = await fetch("http://localhost:8080/cliente", {
+                let response = await fetch("http://localhost:8080/professor", {
                 method: "GET",
                     headers: { "Content-Type": "application/json" },
                 });
@@ -113,10 +112,10 @@
         }
 
         // ## Funções para deletar Cliente(DELETE)
-        async function deletarCliente(id) {
-            if (confirm("Tem certeza que deseja deletar este cliente?")) {
+        async function deletarCliente(id) {}
+            if (confirm("Tem certeza que deseja deletar este cliente?")) 
                 try {
-                    let response = await fetch(`http://localhost:8080/cliente/${id}`, {
+                    let response = await fetch(`http://localhost:8080/professor/${id}`, {
                     method: "DELETE",
                         headers: { "Content-Type": "application/json" },
                     });
@@ -125,8 +124,8 @@
                         alert("Erro do back-end" + response.status)
                         return
                     }
-                    alert("Cliente deletado com sucesso!");
-                    getClientes();
+                    alert("Professor deletado com sucesso!");
+                    getProfessor();
                 } catch (error) {
                     alert("Erro na requisição: " + error.message)
                 }
