@@ -1,14 +1,13 @@
 package com.example.atv_turma.Entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Data
@@ -20,5 +19,15 @@ public class Professor implements Serializable{
     private long id;
     private String nome;
     private String sobrenome;
+    @OneToMany(mappedBy = "professor")
+    @JsonIgnore
+    private List<Turma> tuma;
+
+    public Professor(Long id, String nome, String sobrenome){
+        this.id = id;
+        this.nome = nome;
+        this.sobrenome = sobrenome;
+
+    }
 
 }
