@@ -14,11 +14,10 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Professor implements Serializable{
+public class Aluno implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String nome;
-    private String sobrenome;
-
+    private String cpf;
 }
