@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ProfessorService {
+public class AlunoService {
     @Autowired
     private UsuarioRepository usuariorepository;
 
@@ -42,9 +42,9 @@ public class ProfessorService {
         return usuariorepository.findAll();
     }
 
-    public List<Usuario> getByNome(String nome){
-        return usuariorepository.findAllByNome(nome);
 
+    public List<Usuario> getByCpf(String cpf){
+        return usuariorepository.findByCpf(cpf);
     }
 
     public Optional<UsuarioDto> getById(Long id){
@@ -79,7 +79,7 @@ public class ProfessorService {
             return Optional.empty();
         }
     }
-
+   
     public boolean delete(Long id){
         if(usuariorepository.existsById(id)){
             usuariorepository.deleteById(id);

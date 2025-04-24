@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ProfessorService {
+public class TurmaService {
     @Autowired
     private UsuarioRepository usuariorepository;
 
@@ -88,4 +88,5 @@ public class ProfessorService {
             return false;
         }
     }
+
 }
