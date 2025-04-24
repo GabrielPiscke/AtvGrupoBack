@@ -8,15 +8,9 @@
     <form id="livroForm">
         <label>Nome:</label>
         <input type="text" name="nome" id="nome" required><br><br>
-        
-        <label>Autor:</label>
-        <input type="text" name="autor" id="autor" required><br><br>
 
-        <label>ISBN:</label>
-        <input type="number" name="isbn" id="isbn" required><br><br>
-
-        <label>Genero:</label>
-        <input type="texto" name="genero" id="genero" required><br><br>
+        <label>Cpf:</label>
+        <input type="texto" name="cpf" id="cpf" required><br><br>
         
         <button type="submit">Enviar</button>
     </form>
@@ -30,7 +24,7 @@
         <button type="submit">Carregar Livros</button>
     </form>
     
-    <ul id="listaLivros"></ul>
+    <ul id="listaAluno"></ul>
     <script>
 
         // ##### Funções para o Envio(POST)
@@ -53,7 +47,7 @@
             let formData = criarObjetoParaEnviar();
             
             try {
-                let response = await fetch("http://localhost:8080/livro", {
+                let response = await fetch("http://localhost:8080/", {
                 method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(formData)

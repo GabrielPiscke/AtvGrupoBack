@@ -22,6 +22,7 @@ public class Professor implements Serializable{
     private String sobrenome;
 
     @OneToMany(mappedBy = "professor", cascade = CascadeType.ALL)
+
     @JsonIgnore
     private List<Turma> turmas;
 

@@ -19,11 +19,12 @@ public class Aluno implements Serializable{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
     private String nome;
-
+    @Column(unique = true)
     private String cpf;
 
     @ManyToOne
     @JoinColumn(name = "id_turma", referencedColumnName = "id")
+
     @JsonIgnore
     private Turma turma;
 

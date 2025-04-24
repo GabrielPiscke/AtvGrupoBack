@@ -23,9 +23,11 @@ public class Turma implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "id_professor", referencedColumnName = "id")
+    @JsonBackReference
     private Professor professor;
 
     @OneToMany(mappedBy = "turma", cascade = CascadeType.ALL)
+
     private List<Aluno> alunos;
 
     public Turma(Long id, String sigla, String nome, int numeroSala){
