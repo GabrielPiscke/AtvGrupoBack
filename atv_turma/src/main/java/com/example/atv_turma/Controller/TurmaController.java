@@ -3,6 +3,7 @@ package com.example.atv_turma.Controller;
 
 import com.example.atv_turma.Dto.ProfessorDto;
 import com.example.atv_turma.Dto.TurmaDto;
+import com.example.atv_turma.Entity.Aluno;
 import com.example.atv_turma.Entity.Turma;
 import com.example.atv_turma.Service.TurmaService;
 import org.springframework.beans.factory.annotation.Autowired;

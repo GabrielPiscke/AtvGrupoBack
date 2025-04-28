@@ -6,8 +6,9 @@
 <body>
     <h2>Cadastrar Turma</h2>
     <form id="emprestimoForm">
-        <label>Sigla:</label>
+        
     <form>
+        <label>Sigla:</label>
         <input type="text" name="sigla" id="sigla" required><br><br>
         
         <label>Número da Sala:</label>
@@ -40,8 +41,8 @@
             lista.innerHTML = "";
             data.forEach(emprestimo => {
                 let item = document.createElement("li");
-                item.textContent = `ID: ${emprestimo.id} - Data Inicial: ${emprestimo.dataInicial} - DataFinal: ${emprestimo.dataFinal}
-                    - Cliente: ${emprestimo.cliente?.nome || "sem nome"}`; // Se o nome no banco de dados for null, entao ele retorna "sem nome"
+                item.textContent = `ID: ${turma.id} - Número da Sala: ${turma.numeroSala} - Sigla: ${turma.sigla}
+                    - Professor: ${turma.professor?.nome || "sem nome"} - Alunos: ${turma.aluno?.nome || "sem nome"}`; // Se o nome no banco de dados for null, entao ele retorna "sem nome"
                     // se existir um nome apenas exibe o nome. Evitando assim erro
                 
                 // botão de editar
