@@ -1,2 +1,2 @@
 # AtvGrupoBack
-Grupo Biel, Gus e Beltris 24_04_2025
+Grupo: Gabriel Mateus Piscke dos Santos, Eliezer Santos e Gustavo Nunes
