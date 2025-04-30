@@ -55,6 +55,24 @@ public class TurmaController {
         }
     }
 
+    // adicionar o aluno a turma
+    @PutMapping("/{id}/aluno-add/{idAluno}")
+    public ResponseEntity<String> addAlunoTurma(@PathVariable Long id, @PathVariable Long idAluno){
+        if(turmaService.addAlunoTurma(id, idAluno)){ // verifica se deu certo adicionar o aluno na turma
+            return ResponseEntity.ok("Aluno adicionado com sucesso");
+        }else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Aluno ou Professor não encontrado");
+        }
+    }
+    @PutMapping("/{id}/aluno-remove/{idAluno}")
+    public ResponseEntity<String> removerAlunoTurma(@PathVariable Long id, @PathVariable Long idAluno){
+        if(turmaService.removerAlunoTurma(id, idAluno)){
+            return ResponseEntity.ok("Aluno removido da turma com sucesso");
+        }else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Erro ao remover aluno da turma");
+        }
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Long id){
         if(turmaService.delete(id)){
@@ -63,5 +81,4 @@ public class TurmaController {
             return ResponseEntity.notFound().build();
         }
     }
-
 }

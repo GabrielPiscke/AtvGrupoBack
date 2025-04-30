@@ -15,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TurmaDto implements Serializable {
+
         private long id;
         @Column(unique = true)
         private String sigla;
@@ -22,9 +23,5 @@ public class TurmaDto implements Serializable {
         private String nome;
         private List<Aluno> alunos;
         private Professor professor;
-
-
-
-
 
 }

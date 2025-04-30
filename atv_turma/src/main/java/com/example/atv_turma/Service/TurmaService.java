@@ -1,7 +1,10 @@
 package com.example.atv_turma.Service;
 
+import com.example.atv_turma.Dto.AlunoDto;
 import com.example.atv_turma.Dto.TurmaDto;
+import com.example.atv_turma.Entity.Aluno;
 import com.example.atv_turma.Entity.Turma;
+import com.example.atv_turma.Repository.AlunoRepository;
 import com.example.atv_turma.Repository.TurmaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +17,9 @@ public class TurmaService {
 
     @Autowired
     private TurmaRepository turmarepository;
+
+    @Autowired
+    private AlunoRepository alunorepository;
 
     public Turma fromDTO(TurmaDto turmaDto){
         Turma turma = new Turma();
@@ -76,6 +82,41 @@ public class TurmaService {
             return Optional.empty();
         }
     }
+    public boolean addAlunoTurma (Long id, Long idAluno){
+        Optional<Turma> optionalTurma = turmarepository.findById(id);
+        if(!optionalTurma.isPresent()){
+            return  false;
+        }
+        Optional<Aluno> optionalAluno = alunorepository.findById(id);
+        if(!optionalAluno.isPresent()){
+            return  false;
+        }
+        Turma turma = optionalTurma.get();
+        Aluno aluno = optionalAluno.get();
+        aluno.setTurma(turma);
+        alunorepository.save(aluno);
+        return true;
+    }
+
+    public boolean removerAlunoTurma(Long id, Long idAluno){
+        // busca o aluno e verifica se ele existe
+        Optional<Aluno> optionalAluno = alunorepository.findById(idAluno);
+        if(!optionalAluno.isPresent()){
+            return false;
+        }
+        // instancia as entidades Turma e Aluno
+        Aluno aluno = optionalAluno.get();
+
+        // verifica se o aluno tem uma turma
+        // verifica se a turma que esta no aluno é realmente a turma que deseja remover
+        if (aluno.getTurma() != null && aluno.getTurma().getId() == id) {
+            aluno.setTurma(null); // remove o aluno da turma
+            alunorepository.save(aluno); // salva no banco de dados
+            return true;
+        }
+        return false;
+    }
+
 
     public boolean delete(Long id){
         if(turmarepository.existsById(id)){

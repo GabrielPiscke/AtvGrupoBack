@@ -19,15 +19,12 @@ public class AlunoController {
     private AlunoService alunoService;
 
     @GetMapping
-    public List<Aluno> getAll(@RequestParam(required = false)String cpf)
-    {
+    public List<Aluno> getAll(@RequestParam(required = false)String cpf) {
          if (cpf != null && !cpf.isEmpty()) {
             return alunoService.getByCpf(cpf);
         }
         return alunoService.getAll();
     }
-
-
 
     @GetMapping("/{id}")
     public ResponseEntity<AlunoDto> getById(@PathVariable Long id){
@@ -63,9 +60,4 @@ public class AlunoController {
             return ResponseEntity.notFound().build();
         }
     }
-
-
-
-
-
 }

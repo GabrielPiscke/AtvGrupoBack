@@ -27,7 +27,6 @@ public class Turma implements Serializable {
     private Professor professor;
 
     @OneToMany(mappedBy = "turma", cascade = CascadeType.ALL)
-
     private List<Aluno> alunos;
 
     public Turma(Long id, String sigla, String nome, int numeroSala){
