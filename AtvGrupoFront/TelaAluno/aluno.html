@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Cadastro de Livro</title>
+    <title>Cadastro Alunos</title>
     <script src="alunoJs.js" defer></script>
 </head>
 <body>
-    <h2>Cadastro de Livro</h2>
-    <form id="livroForm">
+    <h2>Cadastrar Aluno</h2>
+    <form id="alunoForm">
         <label>Nome:</label>
         <input type="text" name="nome" id="nome" required><br><br>
 
@@ -18,14 +18,14 @@
 
     <hr>
 
-    <h2>Lista de Livros</h2>
-    <form id="livroBusca">
-        <label>Nome do livro:</label>
-        <input type="text" name="nomeBusca" id="nomeBusca"><br><br>
-        <button type="submit">Carregar Livros</button>
+    <h2>Lista de Alunos</h2>
+    <form id="alunoBusca">
+        <label>CPF do Aluno:</label>
+        <input type="text" name="cpfBusca" id="cpfBusca"><br><br>
+        <button type="submit">Carregar Alunos</button>
     </form>
     
-    <ul id="listaAluno"></ul>
+    <ul id="listaAlunos"></ul>
   
 </body>
 </html>

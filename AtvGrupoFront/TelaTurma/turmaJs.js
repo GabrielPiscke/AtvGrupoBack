@@ -194,16 +194,16 @@ async function deletarTurma(id) {
                 return
             }
             alert("Turma deletada com sucesso!");
-            carregarTurmas();
+            turmaBusca();
         } catch (error) {
             alert("Erro na requisição: " + error.message)
         }
     }
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     getAlunos() // buscar os clientes disponíveis no sistema, assim que a página carregar
-    getProfessores() // buscar os livros disponíveis no sistema assim que a página carregar
+   await getProfessores() // buscar os livros disponíveis no sistema assim que a página carregar
     document.getElementById("turmaForm").addEventListener("submit", postTurma);
-    document.getElementById("carregarTurmas").addEventListener("click", getTurma);
+    document.getElementById("turmaBusca").addEventListener("click", getTurma);
 });

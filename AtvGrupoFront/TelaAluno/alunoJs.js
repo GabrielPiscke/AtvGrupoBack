@@ -6,21 +6,19 @@
         function criarObjetoParaEnviar(){
             let formData = {
                 nome: document.getElementById("nome").value,
-                autor: document.getElementById("autor").value,
-                isbn: parseInt(document.getElementById("isbn").value),
-                genero: document.getElementById("genero").value,
-            }
+                cpf: document.getElementById("cpf").value
+            };
 
             return formData;
         }
 
-        async function postLivro(event) {
+        async function postAluno(event) {
             event.preventDefault();
             
             let formData = criarObjetoParaEnviar();
             
             try {
-                let response = await fetch("http://localhost:8080/", {
+                let response = await fetch("http://localhost:8080/aluno", {
                 method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(formData)
@@ -41,12 +39,12 @@
         }
 
         // ##### Funções para o carregar dados da tela(GET)
-        function criarListaDeLivros(data){
-            let lista = document.getElementById("listaLivros");
+        function criarListaDeAlunos(data){
+            let lista = document.getElementById("listaAlunos");
             lista.innerHTML = "";
-            data.forEach(livro => {
+            data.forEach(aluno => {
                 let item = document.createElement("li");
-                item.textContent = `ID: ${livro.id} - Nome: ${livro.nome} - Autor: ${livro.autor} - ISBN: ${livro.isbn} - Genero: ${livro.genero}`;
+                item.textContent = `ID: ${aluno.id} - Nome: ${aluno.nome} - Cpf: ${aluno.cpf}`;
                 
                 // botão de editar
                 let btnLink = document.createElement("button");
@@ -54,7 +52,7 @@
                 btnLink.target = "_blank";
                 btnLink.style.marginLeft = "10px";
                 btnLink.onclick = function() {
-                    window.open(`livroEdit.html?id=${livro.id}`, '_blank');
+                    window.open(`livroEdit.html?id=${aluno.id}`, '_blank');
                 };
                 item.appendChild(btnLink);
 
@@ -63,7 +61,7 @@
                 btnDeletar.textContent = "Deletar";
                 btnDeletar.style.marginLeft = "10px";
                 btnDeletar.onclick = function(){
-                    deletarLivro(livro.id)
+                    deletarAluno(aluno.id)
                 }
                 item.appendChild(btnDeletar);
 
@@ -71,13 +69,13 @@
             });
         }
 
-        async function getLivros(event) {
+        async function getAlunos(event) {
             event.preventDefault()
 
-            let nomeBusca = document.getElementById("nomeBusca").value; // acrecentando filtro de nome a busca, caso necessário
+            let cpfBusca = document.getElementById("cpfBusca").value; // acrecentando filtro de nome a busca, caso necessário
 
             try {
-                let response = await fetch(`http://localhost:8080/livro?nome=${nomeBusca}`, {
+                let response = await fetch(`http://localhost:8080/aluno?cpf=${cpfBusca}`, {
                 method: "GET",
                     headers: { "Content-Type": "application/json" },
                 });
@@ -89,17 +87,17 @@
     
                 let data = await response.json()
 
-                criarListaDeLivros(data);
+                criarListaDeAlunos(data);
             } catch (error) {
                 alert("Erro na requisição: " + error.message)
             }
         }
 
         // ##### Funções para o deletar(DELETE)
-        async function deletarLivro(id) {
-            if (confirm("Tem certeza que deseja deletar este Livro?")) {
+        async function deletarAluno(id) {
+            if (confirm("Tem certeza que deseja remover este aluno?")) {
                 try {
-                    let response = await fetch(`http://localhost:8080/livro/${id}`, {
+                    let response = await fetch(`http://localhost:8080/aluno/${id}`, {
                     method: "DELETE",
                         headers: { "Content-Type": "application/json" },
                     });
@@ -108,8 +106,8 @@
                         alert("Erro do back-end" + response.status)
                         return
                     }
-                    alert("Livro deletado com sucesso!");
-                    getLivros();
+                    alert("Aluno deletado com sucesso!");
+                    getAlunos();
                 } catch (error) {
                     alert("Erro na requisição: " + error.message)
                 }
@@ -117,6 +115,6 @@
         }
 
         document.addEventListener("DOMContentLoaded", () => {
-            document.getElementById("livroForm").addEventListener("submit", postLivro);
-            document.getElementById("livroBusca").addEventListener("submit", getLivros);
+            document.getElementById("alunoForm").addEventListener("submit", postAluno);
+            document.getElementById("alunoBusca").addEventListener("submit", getAlunos);
         });
