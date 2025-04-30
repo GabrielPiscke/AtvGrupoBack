@@ -1,10 +1,9 @@
-<script>
-  
+ 
 // rendizar lista de emprestimos
 function criarListaTurmas(data){
-    let lista = document.getElementById("listaEmprestimo");
+    let lista = document.getElementById("listaTurmas");
     lista.innerHTML = "";
-    data.forEach(emprestimo => {
+    data.forEach(turma => {
         let item = document.createElement("li");
         item.textContent = `ID: ${turma.id} - Número da Sala: ${turma.numeroSala} - Sigla: ${turma.sigla}
             - Professor: ${turma.professor?.nome || "sem nome"} - Alunos: ${turma.aluno?.nome || "sem nome"}`; // Se o nome no banco de dados for null, entao ele retorna "sem nome"
@@ -16,7 +15,7 @@ function criarListaTurmas(data){
         btnLink.target = "_blank";
         btnLink.style.marginLeft = "10px";
         btnLink.onclick = function() {
-            window.open(`emprestimoEdit.html?id=${emprestimo.id}`, '_blank');
+            window.open(`turmaEdit.html?id=${turma.id}`, '_blank');
         };
         item.appendChild(btnLink);
 
@@ -25,7 +24,7 @@ function criarListaTurmas(data){
         btnDeletar.textContent = "Deletar";
         btnDeletar.style.marginLeft = "10px";
         btnDeletar.onclick = function(){
-            deletarEmprestimo(emprestimo.id)
+            deletarTurma(turma.id)
         }
         item.appendChild(btnDeletar);
 
@@ -34,28 +33,28 @@ function criarListaTurmas(data){
 }
 
 // preencher o campo select, com os clientes que estão no banco de dados
-function criarCampoSelectCliente(data){
-    let select = document.getElementById("clienteSelect");
+function criarCampoSelectProfessor(data){
+    let select = document.getElementById("professorSelect");
     // prenche o dropDown(com os dados)
-    data.forEach(cliente => {
+    data.forEach(professor => {
         let option = document.createElement("option");
-        option.value = cliente.id; // valor que sera enviado ao fazer o submit do form
-        option.textContent = cliente.nome; // nome que aparece para selecionar
+        option.value = professor.id; // valor que sera enviado ao fazer o submit do form
+        option.textContent = professor.nome; // nome que aparece para selecionar
         select.appendChild(option);
     });
 }
 
 // criar CheckBox dos livros que estão salvos no banco de dados
-function criarCheckBoxLivros(data){
+function criarCheckBoxAlunos(data){
     // Pegando o form
-    const form = document.getElementById("emprestimoForm");
+    const form = document.getElementById("turmaForm");
 
     // Cria os checkboxes
-    data.forEach(livro => {
+    data.forEach(aluno => {
         let checkbox = document.createElement("input");
         checkbox.type = "checkbox";
-        checkbox.name = "livros";
-        checkbox.value = livro.id; // colocar o value do checkbox como o id do livro
+        checkbox.name = "alunos";
+        checkbox.value = aluno.id; // colocar o value do checkbox como o id do livro
 
         let texto = document.createTextNode(` ${livro.nome}`);
         
@@ -66,9 +65,9 @@ function criarCheckBoxLivros(data){
 }
 
 // Buscar Clientes
-async function getClientes(){
+async function getProfessores(){
     try {
-        let response = await fetch("http://localhost:8080/cliente", {
+        let response = await fetch("http://localhost:8080/professor", {
         method: "GET",
             headers: { "Content-Type": "application/json" },
         });
@@ -80,16 +79,16 @@ async function getClientes(){
 
         let data = await response.json()
 
-        criarCampoSelectCliente(data)
+        criarCampoSelectProfessor(data)
     } catch (error) {
         alert("Erro na requisição: " + error.message)
     }
 }
 
 // Buscar Livros
-async function getLivros(){
+async function getAlunos(){
     try {
-        let response = await fetch("http://localhost:8080/livro", {
+        let response = await fetch("http://localhost:8080/aluno", {
         method: "GET",
             headers: { "Content-Type": "application/json" },
         });
@@ -101,7 +100,7 @@ async function getLivros(){
 
         let data = await response.json()
 
-        criarCheckBoxLivros(data)
+        criarCheckBoxAlunos(data)
     } catch (error) {
         alert("Erro na requisição: " + error.message)
     }
@@ -109,34 +108,35 @@ async function getLivros(){
 
 
 // cria objeto para ser enviado na requisição
-function criarObjetoEmprestimo(){
+function criarObjetoTurma(){
     // Pegar todos os checkboxes selecionados
-    let checkboxes = document.querySelectorAll('input[name="livros"]:checked');
+    let checkboxes = document.querySelectorAll('input[name="alunos"]:checked');
 
     // Mapear os valores para um array de objetos com { id: x }
-    let livrosSelecionados = Array.from(checkboxes).map(cb => ({
+    let alunosSelecionados = Array.from(checkboxes).map(cb => ({
         id: parseInt(cb.value)
     }));
     
     let formData = {
-        dataInicial: document.getElementById("dataInicial").value,
-        dataFinal: document.getElementById("dataFinal").value,
-        cliente:{
-            id: document.getElementById("clienteSelect").value
+        sigla: document.getElementById("sigla").value,
+        numeroSala: document.getElementById("numeroSala").value,
+        nome: document.getElementById("nomeTurma").value,
+        professor:{
+            id: document.getElementById("professorSelect").value
         },
-        livros: livrosSelecionados
+        alunos: alunosSelecionados
     };
 
     return formData;
 }
 // enviar emprestimo
-async function postEmprestimo(event) {
+async function postTurma(event) {
     event.preventDefault();
     
-    let formData = criarObjetoEmprestimo();
+    let formData = criarObjetoTurma();
     
     try {
-        let response = await fetch("http://localhost:8080/emprestimo", {
+        let response = await fetch("http://localhost:8080/turma", {
         method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(formData)
@@ -150,17 +150,17 @@ async function postEmprestimo(event) {
         let data = await response.json()
 
         alert("Sucesso: " + JSON.stringify(data));
-        getEmprestimo();
+        getTurma();
     } catch (error) {
         alert("Erro na requisição: " + error.message)
     }
 }
 
 // buscar lista de emprestimos
-async function getEmprestimo() {
+async function getTurma() {
 
     try {
-        let response = await fetch("http://localhost:8080/emprestimo", {
+        let response = await fetch("http://localhost:8080/turma", {
         method: "GET",
             headers: { "Content-Type": "application/json" },
         });
@@ -172,17 +172,17 @@ async function getEmprestimo() {
 
         let data = await response.json()
 
-        criarListaEmprestimos(data);
+        criarListaTurmas(data);
     } catch (error) {
         alert("Erro na requisição: " + error.message)
     }
 }
 
 // deletar emprestimo
-async function deletarEmprestimo(id) {
-    if (confirm("Tem certeza que deseja deletar este emprestimo?")) {
+async function deletarTurma(id) {
+    if (confirm("Tem certeza que deseja deletar essa Turma?")) {
         try {
-            let response = await fetch(`http://localhost:8080/emprestimo/${id}`, {
+            let response = await fetch(`http://localhost:8080/turma/${id}`, {
             method: "DELETE",
                 headers: { "Content-Type": "application/json" },
             });
@@ -191,8 +191,8 @@ async function deletarEmprestimo(id) {
                 alert("Erro do back-end" + response.status)
                 return
             }
-            alert("Emprestimo deletado com sucesso!");
-            carregarEmprestimo();
+            alert("Turma deletada com sucesso!");
+            carregarTurmas();
         } catch (error) {
             alert("Erro na requisição: " + error.message)
         }
@@ -200,9 +200,8 @@ async function deletarEmprestimo(id) {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    getClientes() // buscar os clientes disponíveis no sistema, assim que a página carregar
-    getLivros() // buscar os livros disponíveis no sistema assim que a página carregar
-    document.getElementById("emprestimoForm").addEventListener("submit", postEmprestimo);
-    document.getElementById("carregarEmprestimo").addEventListener("click", getEmprestimo);
+    getAlunos() // buscar os clientes disponíveis no sistema, assim que a página carregar
+    getProfessores() // buscar os livros disponíveis no sistema assim que a página carregar
+    document.getElementById("turmaForm").addEventListener("submit", postTurma);
+    document.getElementById("carregarTurmas").addEventListener("click", getTurma);
 });
-</script>
