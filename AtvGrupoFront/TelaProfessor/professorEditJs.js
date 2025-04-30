@@ -1,25 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Editar de Cliente</title>
-</head>
-<body>
-    <h2>Editar de Cliente</h2>
-    <form id="clienteForm">
-        <input type="hidden" id="clienteId">
-        <label>Nome:</label>
-        <input type="text" name="nome" id="nome" required><br><br>
-        
-        <label>Sobrenome:</label>
-        <input type="sobrenome" name="sobrenome" id="sobrenome" required><br><br>
 
-        <label>CPF:</label>
-        <input type="cpf" name="cpf" id="cpf" required><br><br>
-        
-        <button type="submit">Enviar</button>
-    </form>
-
-    <script>
         // ## Funções de busca assim que página abre, com base no id da URL(GET)
         // pega o Id da URL
         function paramUrl(){
@@ -99,6 +78,4 @@
             document.getElementById("clienteForm").addEventListener("submit", putCliente);
             paramUrl();
         });
-    </script>
-</body>
-</html>
+   

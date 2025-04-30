@@ -1,58 +1,75 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Cadastro de Emprestimo</title>
+    <title>Cadastro de Turma</title>
+    <script src="turmaJs.js" defer></script>
 </head>
 <body>
-    <h2>Cadastro de Emprestimo</h2>
+    <h2>Cadastrar Turma</h2>
     <form id="emprestimoForm">
-        <input type="hidden" id="emprestimoId">
-        <label>Data Inicial:</label>
-        <input type="date" name="dataInicial" id="dataInicial" required><br><br>
         
-        <label>Data Final:</label>
-        <input type="date" name="dataFinal" id="dataFinal" required><br><br>
+    <form>
+        <label>Sigla:</label>
+        <input type="text" name="sigla" id="sigla" required><br><br>
+        
+        <label>Número da Sala:</label>
+        <input type="Number" name="numerosala" id="numerosala" required><br><br>
 
-        <label> Cliente:</label>
-        <select name="clienteId" id="clienteSelect" required="true">
+        <label>Professor:</label>
+        <select name="professorId" id="professorSelect" required="true">
+
             <option >Select...</option>
         </select><br><br>
-
-        <label> Livros: </label><br>
-        
-        <button type="submit">Enviar</button>
     </form>
 
+        <label> Alunos: </label><br>
+        
+        <button type="submit">Enviar</button>
+
+        <h2>Lista de Turmas:</h2>
+        <form id="turmaBusca">
+            <label>Nome da Turma:</label>
+            <input type="text" name="nomeBusca" id="nomeBusca"><br><br>
+            <button type="submit">Carregar Turmas</button>
+        </form>
+     <ul id="listaTurmas"></ul>
+
     <script>
-
-        // pegar parametro da URL
-        function paramUrl(){
-            const params = new URLSearchParams(window.location.search);
-            const id = params.get("id");
-
-            if (id) {
-                getEmprestimoPorId(id);
-            }
-        }
-
-        // preenche os dados do Form com base no emprestimo
-        function preencherFormEmprestimo(data){
-            document.getElementById("emprestimoId").value = data.id;
-            document.getElementById("dataInicial").value = data.dataInicial;
-            document.getElementById("dataFinal").value = data.dataFinal;
-            document.getElementById("clienteSelect").value = data.cliente.id;
-
-            let idsLivrosSelecionados = data.livros.map(livro => livro.id)
-
-            let checkboxes = document.querySelectorAll('input[name="livros"]');
-            checkboxes.forEach(checkbox => {
-                const id = parseInt(checkbox.value);
-                checkbox.checked = idsLivrosSelecionados.includes(id);
-            });
   
+        // rendizar lista de emprestimos
+        function criarListaTurmas(data){
+            let lista = document.getElementById("listaEmprestimo");
+            lista.innerHTML = "";
+            data.forEach(emprestimo => {
+                let item = document.createElement("li");
+                item.textContent = `ID: ${turma.id} - Número da Sala: ${turma.numeroSala} - Sigla: ${turma.sigla}
+                    - Professor: ${turma.professor?.nome || "sem nome"} - Alunos: ${turma.aluno?.nome || "sem nome"}`; // Se o nome no banco de dados for null, entao ele retorna "sem nome"
+                    // se existir um nome apenas exibe o nome. Evitando assim erro
+                
+                // botão de editar
+                let btnLink = document.createElement("button");
+                btnLink.textContent = "Editar";
+                btnLink.target = "_blank";
+                btnLink.style.marginLeft = "10px";
+                btnLink.onclick = function() {
+                    window.open(`emprestimoEdit.html?id=${emprestimo.id}`, '_blank');
+                };
+                item.appendChild(btnLink);
+
+                // botão de editar
+                let btnDeletar = document.createElement("button")
+                btnDeletar.textContent = "Deletar";
+                btnDeletar.style.marginLeft = "10px";
+                btnDeletar.onclick = function(){
+                    deletarEmprestimo(emprestimo.id)
+                }
+                item.appendChild(btnDeletar);
+
+                lista.appendChild(item);
+            });
         }
 
-        // criar os campos de select com base nos cliente que estão no banco de dados
+        // preencher o campo select, com os clientes que estão no banco de dados
         function criarCampoSelectCliente(data){
             let select = document.getElementById("clienteSelect");
             // prenche o dropDown(com os dados)
@@ -64,7 +81,7 @@
             });
         }
 
-        // criar o checkBox dos livros com base nos livros que estão no banco de dados
+        // criar CheckBox dos livros que estão salvos no banco de dados
         function criarCheckBoxLivros(data){
             // Pegando o form
             const form = document.getElementById("emprestimoForm");
@@ -74,7 +91,7 @@
                 let checkbox = document.createElement("input");
                 checkbox.type = "checkbox";
                 checkbox.name = "livros";
-                checkbox.value = livro.id;
+                checkbox.value = livro.id; // colocar o value do checkbox como o id do livro
 
                 let texto = document.createTextNode(` ${livro.nome}`);
                 
@@ -84,7 +101,7 @@
             });
         }
         
-        // buscar os clientes(GET)
+        // Buscar Clientes
         async function getClientes(){
             try {
                 let response = await fetch("http://localhost:8080/cliente", {
@@ -105,7 +122,7 @@
             }
         }
 
-        // buscar os livros(GET)
+        // Buscar Livros
         async function getLivros(){
             try {
                 let response = await fetch("http://localhost:8080/livro", {
@@ -126,8 +143,9 @@
             }
         }
 
-        // criar objeto que será enviado na requisição PUT
-        function criarObjeto(){
+
+        // cria objeto para ser enviado na requisição
+        function criarObjetoEmprestimo(){
             // Pegar todos os checkboxes selecionados
             let checkboxes = document.querySelectorAll('input[name="livros"]:checked');
 
@@ -147,18 +165,15 @@
 
             return formData;
         }
-
-        // atualizar emprestimo(PUT)
-        async function putEmprestimo(event) {
+        // enviar emprestimo
+        async function postEmprestimo(event) {
             event.preventDefault();
-
-            let formData = criarObjeto()
-
-            let id = document.getElementById("emprestimoId").value
+            
+            let formData = criarObjetoEmprestimo();
             
             try {
-                let response = await fetch(`http://localhost:8080/emprestimo/${id}`, {
-                method: "PUT",
+                let response = await fetch("http://localhost:8080/emprestimo", {
+                method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(formData)
                 });
@@ -171,16 +186,17 @@
                 let data = await response.json()
     
                 alert("Sucesso: " + JSON.stringify(data));
+                getEmprestimo();
             } catch (error) {
                 alert("Erro na requisição: " + error.message)
             }
         }
 
-        // buscar emprestimo com base no id
-        async function getEmprestimoPorId(id) {
+        // buscar lista de emprestimos
+        async function getEmprestimo() {
 
             try {
-                let response = await fetch(`http://localhost:8080/emprestimo/${id}`, {
+                let response = await fetch("http://localhost:8080/emprestimo", {
                 method: "GET",
                     headers: { "Content-Type": "application/json" },
                 });
@@ -192,17 +208,38 @@
     
                 let data = await response.json()
 
-                preencherFormEmprestimo(data);
+                criarListaEmprestimos(data);
             } catch (error) {
                 alert("Erro na requisição: " + error.message)
             }
         }
 
+        // deletar emprestimo
+        async function deletarEmprestimo(id) {
+            if (confirm("Tem certeza que deseja deletar este emprestimo?")) {
+                try {
+                    let response = await fetch(`http://localhost:8080/emprestimo/${id}`, {
+                    method: "DELETE",
+                        headers: { "Content-Type": "application/json" },
+                    });
+        
+                    if(!response.ok){
+                        alert("Erro do back-end" + response.status)
+                        return
+                    }
+                    alert("Emprestimo deletado com sucesso!");
+                    carregarEmprestimo();
+                } catch (error) {
+                    alert("Erro na requisição: " + error.message)
+                }
+            }
+        }
+
         document.addEventListener("DOMContentLoaded", () => {
-            getClientes() // quando a página carregar pega os clientes disponíveis no banco de dados
-            getLivros() // quaando a página carregar pega os livros do banco de dados
-            paramUrl() // quando a página carregar vai pegar o parametro da URL e depois fazer a requisição nesse emprestimo com base nesse id
-            document.getElementById("emprestimoForm").addEventListener("submit", putEmprestimo);
+            getClientes() // buscar os clientes disponíveis no sistema, assim que a página carregar
+            getLivros() // buscar os livros disponíveis no sistema assim que a página carregar
+            document.getElementById("emprestimoForm").addEventListener("submit", postEmprestimo);
+            document.getElementById("carregarEmprestimo").addEventListener("click", getEmprestimo);
         });
     </script>
 </body>

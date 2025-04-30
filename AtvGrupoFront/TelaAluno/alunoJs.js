@@ -1,45 +1,26 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Cadastro de Cliente</title>
-</head>
-<body>
-    <h2>Cadastro de Professor</h2>
-    <form id="clienteForm">
-        <label>Nome:</label>
-        <input type="text" name="nome" id="nome" required><br><br>
-        
-        <label>Sobrenome:</label>
-        <input type="sobrenome" name="sobrenome" id="sobrenome" required><br><br>
 
-        
-        <button type="submit">Enviar</button>
-    </form>
 
-    <hr>
-
-    <h2>Lista de Professores</h2>
-    <button id="carregarProfessores">Carregar Professor</button>
-    <ul id="listaProfessores"></ul>
-
-    <script>
-        // ## Funções para enviar Professor(POST)
+        // ##### Funções para o Envio(POST)
+        // extrai os dados do form e cria um objeto para ser enviado
+        // seguindo a estrutura do JSON
         function criarObjetoParaEnviar(){
             let formData = {
                 nome: document.getElementById("nome").value,
-                sobrenome: document.getElementById("sobrenome").value,
-            };
+                autor: document.getElementById("autor").value,
+                isbn: parseInt(document.getElementById("isbn").value),
+                genero: document.getElementById("genero").value,
+            }
 
-            return formData
+            return formData;
         }
 
-        async function postProfessor(event) {
+        async function postLivro(event) {
             event.preventDefault();
             
             let formData = criarObjetoParaEnviar();
             
             try {
-                let response = await fetch("http://localhost:8080/prfessor", {
+                let response = await fetch("http://localhost:8080/", {
                 method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(formData)
@@ -53,20 +34,19 @@
                 let data = await response.json()
     
                 alert("Sucesso: " + JSON.stringify(data));
-                getClientes();
             } catch (error) {
                 alert("Erro na requisição: " + error.message)
                 
             }
         }
 
-        // ## Funções para buscar Professores(GET)
-        function criarListaDeClientes(data){
-            let lista = document.getElementById("listaClientes");
+        // ##### Funções para o carregar dados da tela(GET)
+        function criarListaDeLivros(data){
+            let lista = document.getElementById("listaLivros");
             lista.innerHTML = "";
-            data.forEach(professor => {
+            data.forEach(livro => {
                 let item = document.createElement("li");
-                item.textContent = `ID: ${professor.id} - Nome: ${professor.nome} - Sobrenome: ${professor.sobrenome}`;
+                item.textContent = `ID: ${livro.id} - Nome: ${livro.nome} - Autor: ${livro.autor} - ISBN: ${livro.isbn} - Genero: ${livro.genero}`;
                 
                 // botão de editar
                 let btnLink = document.createElement("button");
@@ -74,7 +54,7 @@
                 btnLink.target = "_blank";
                 btnLink.style.marginLeft = "10px";
                 btnLink.onclick = function() {
-                    window.open(`professorEdit.html?id=${professor.id}`, '_blank');
+                    window.open(`livroEdit.html?id=${livro.id}`, '_blank');
                 };
                 item.appendChild(btnLink);
 
@@ -83,18 +63,21 @@
                 btnDeletar.textContent = "Deletar";
                 btnDeletar.style.marginLeft = "10px";
                 btnDeletar.onclick = function(){
-                    deletarCliente(cliente.id)
+                    deletarLivro(livro.id)
                 }
                 item.appendChild(btnDeletar);
 
                 lista.appendChild(item);
             });
         }
-        
-        async function getProfessor() {
+
+        async function getLivros(event) {
+            event.preventDefault()
+
+            let nomeBusca = document.getElementById("nomeBusca").value; // acrecentando filtro de nome a busca, caso necessário
 
             try {
-                let response = await fetch("http://localhost:8080/professor", {
+                let response = await fetch(`http://localhost:8080/livro?nome=${nomeBusca}`, {
                 method: "GET",
                     headers: { "Content-Type": "application/json" },
                 });
@@ -105,17 +88,18 @@
                 }
     
                 let data = await response.json()
-                criarListaDeClientes(data)
+
+                criarListaDeLivros(data);
             } catch (error) {
                 alert("Erro na requisição: " + error.message)
             }
         }
 
-        // ## Funções para deletar Cliente(DELETE)
-        async function deletarCliente(id) {}
-            if (confirm("Tem certeza que deseja deletar este cliente?")) 
+        // ##### Funções para o deletar(DELETE)
+        async function deletarLivro(id) {
+            if (confirm("Tem certeza que deseja deletar este Livro?")) {
                 try {
-                    let response = await fetch(`http://localhost:8080/professor/${id}`, {
+                    let response = await fetch(`http://localhost:8080/livro/${id}`, {
                     method: "DELETE",
                         headers: { "Content-Type": "application/json" },
                     });
@@ -124,16 +108,15 @@
                         alert("Erro do back-end" + response.status)
                         return
                     }
-                    alert("Professor deletado com sucesso!");
-                    getProfessor();
+                    alert("Livro deletado com sucesso!");
+                    getLivros();
                 } catch (error) {
                     alert("Erro na requisição: " + error.message)
                 }
-           
+            }
+        }
+
         document.addEventListener("DOMContentLoaded", () => {
-            document.getElementById("clienteForm").addEventListener("submit", postProfessor);
-            document.getElementById("carregarClientes").addEventListener("click", getProfessor);
+            document.getElementById("livroForm").addEventListener("submit", postLivro);
+            document.getElementById("livroBusca").addEventListener("submit", getLivros);
         });
-    </script>
-</body>
-</html>
