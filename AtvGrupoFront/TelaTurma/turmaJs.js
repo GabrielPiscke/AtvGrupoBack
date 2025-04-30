@@ -159,8 +159,10 @@ async function postTurma(event) {
 // buscar lista de emprestimos
 async function getTurma() {
 
+    let nomeBusca = document.getElementById("nomeBusca").value; // acrecentando filtro de nome a busca, caso necessário
+
     try {
-        let response = await fetch("http://localhost:8080/turma", {
+        let response = await fetch(`http://localhost:8080/turma?nome=${nomeBusca}`, {
         method: "GET",
             headers: { "Content-Type": "application/json" },
         });
