@@ -194,7 +194,7 @@ async function deletarTurma(id) {
                 return
             }
             alert("Turma deletada com sucesso!");
-            turmaBusca();
+            getTurma();
         } catch (error) {
             alert("Erro na requisição: " + error.message)
         }
