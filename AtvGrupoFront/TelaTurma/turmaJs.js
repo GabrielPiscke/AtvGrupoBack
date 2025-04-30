@@ -203,7 +203,7 @@ async function deletarTurma(id) {
 
 document.addEventListener("DOMContentLoaded", async () => {
     getAlunos() // buscar os clientes disponíveis no sistema, assim que a página carregar
-   await getProfessores() // buscar os livros disponíveis no sistema assim que a página carregar
+    await getProfessores() // buscar os livros disponíveis no sistema assim que a página carregar
     document.getElementById("turmaForm").addEventListener("submit", postTurma);
     document.getElementById("turmaBusca").addEventListener("click", getTurma);
 });
