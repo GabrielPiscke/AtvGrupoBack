@@ -39,36 +39,55 @@
         }
 
         // ##### Funções para o carregar dados da tela(GET)
-        function criarListaDeAlunos(data){
+        function criarListaDeAlunos(data) {
             let lista = document.getElementById("listaAlunos");
             lista.innerHTML = "";
+            
             data.forEach(aluno => {
-                let item = document.createElement("li");
-                item.textContent = `ID: ${aluno.id} - Nome: ${aluno.nome} - Cpf: ${aluno.cpf}`;
+                let linha = document.createElement("tr");
+        
+                // Colunas: ID, Nome, CPF
+                let id = document.createElement("th");
+                id.scope = "row"; // Acessibilidade
+                id.textContent = aluno.id;
+        
+                let nome = document.createElement("td");
+                nome.textContent = aluno.nome;
+        
+                let cpf = document.createElement("td");
+                cpf.textContent = aluno.cpf;
+        
+                linha.appendChild(id);
+                linha.appendChild(nome);
+                linha.appendChild(cpf);
+        
+                // Botão Editar
+                let tdEditar = document.createElement("td"); // célula para o botão
+                let btnEditar = document.createElement("button");
+                btnEditar.textContent = "Editar";
                 
-                // botão de editar
-                let btnLink = document.createElement("button");
-                btnLink.textContent = "Editar";
-                btnLink.target = "_blank";
-                btnLink.style.marginLeft = "10px";
-                btnLink.onclick = function() {
-                    window.open(`livroEdit.html?id=${aluno.id}`, '_blank');
+                btnEditar.classList.add("btn", "btn-warning", "btn-sm", "me-2");
+                btnEditar.onclick = function () {
+                    window.open(`alunoEdit.html?id=${aluno.id}`, "_blank");
                 };
-                item.appendChild(btnLink);
-
-                // botão de deletar
-                let btnDeletar = document.createElement("button")
+                tdEditar.appendChild(btnEditar);
+        
+                // Botão Deletar
+                let btnDeletar = document.createElement("button");
                 btnDeletar.textContent = "Deletar";
-                btnDeletar.style.marginLeft = "10px";
-                btnDeletar.onclick = function(){
-                    deletarAluno(aluno.id)
-                }
-                item.appendChild(btnDeletar);
-
-                lista.appendChild(item);
+                btnDeletar.classList.add("btn", "btn-danger", "btn-sm");
+                btnDeletar.onclick = function () {
+                    deletarAluno(aluno.id);
+                };
+                tdEditar.appendChild(btnDeletar);
+        
+                linha.appendChild(tdEditar);
+        
+                // Adiciona a linha completa à tabela
+                lista.appendChild(linha);
             });
         }
-
+        
         async function getAlunos(event) {
             event.preventDefault()
 
