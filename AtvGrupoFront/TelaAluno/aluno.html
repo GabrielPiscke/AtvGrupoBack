@@ -65,6 +65,7 @@
   
   <form id="alunoForm" class="m-5">
     <h2>Cadastrar Aluno</h2>
+    <br>
     <div class="mb-3">
       <label for="nome" class="form-label">Nome</label>
       <input type="text" class="form-control" id="nome" aria-describedby="nomeHelp">
@@ -78,32 +79,34 @@
       <input type="checkbox" class="form-check-input" id="exampleCheck1">
       <label class="form-check-label" for="exampleCheck1">Receba?</label>
     </div>
+    <br>
     <button type="submit" class="btn btn-primary">Enviar</button>
   </form>
-    <hr>
-    <form id="alunoBusca" class="m-5">
+
+  <hr>
+  
+  <form id="alunoBusca" class="m-5">
     <h2>Alunos Cadastrados</h2>
+    <br>
     <div class="mb-3">
       <label for="cpfBusca" class="form-label">Cpf do Aluno</label>
       <input type="text" class="form-control" name="cpfBusca" id="cpfBusca" aria-describedby="cpfHelp">
       <div id="cpfHelp" class="form-text text-white">Procure um aluno pelo CPF.</div>
     </div>
-    <button type="submit" class="btn btn-primary">Pesquisar</button>
-  </form>
     <br>
-    <hr>
-    <div class="m-5">
-      <table class="text-blue table-bg table-striped-columns">
-        <thead class="text-center">
-            <tr id="colunas">
-             
-            </tr>
-          </thead>
-          <tbody id="listaAlunos" class="text-center">
-         
-          </tbody>
+    <button type="submit" class="btn btn-primary">Mostrar</button>
+  </form>
+  <br>
+  <hr>
+  <div class="m-5">
+    <table class="text-blue table-bg table-striped-columns">
+      <thead class="text-center">
+        <tr id="colunas">    
+        </tr>
+      </thead>
+      <tbody id="listaAlunos" class="text-center"> 
+      </tbody>
       </table> 
     </div>  
-  
 </body>
 </html>
