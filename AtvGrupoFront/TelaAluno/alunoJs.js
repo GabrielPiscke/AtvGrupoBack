@@ -40,10 +40,36 @@
 
         // ##### Funções para o carregar dados da tela(GET)
         function criarListaDeAlunos(data) {
+            let colunas = document.getElementById("colunas");
             let lista = document.getElementById("listaAlunos");
             lista.innerHTML = "";
+            colunas.innerHTML = "";
             
+            //colunas
+               let idColun = document.createElement("th");
+                idColun.scope = "col";
+                idColun.textContent = "Id";
+
+                let nomeColun = document.createElement("th");
+                nomeColun.scope = "col";
+                nomeColun.textContent = "Nome";
+
+                let cpfColun = document.createElement("th");
+                cpfColun.scope = "col";
+                cpfColun.textContent = "Cpf";
+
+                let acoesColun = document.createElement("th");
+                acoesColun.scope = "col";
+                acoesColun.textContent = "Acões";
+
+                colunas.appendChild(idColun);
+                colunas.appendChild(nomeColun);
+                colunas.appendChild(cpfColun);
+                colunas.appendChild(acoesColun);
+
+            //linhas
             data.forEach(aluno => {
+             
                 let linha = document.createElement("tr");
         
                 // Colunas: ID, Nome, CPF
@@ -64,9 +90,10 @@
                 // Botão Editar
                 let tdEditar = document.createElement("td"); // célula para o botão
                 let btnEditar = document.createElement("button");
-                btnEditar.textContent = "Editar";
+            
                 
                 btnEditar.classList.add("btn", "btn-warning", "btn-sm", "me-2");
+                btnEditar.innerHTML = `<i class="bi bi-pencil-square"></i> Editar`;
                 btnEditar.onclick = function () {
                     window.open(`alunoEdit.html?id=${aluno.id}`, "_blank");
                 };
@@ -74,8 +101,8 @@
         
                 // Botão Deletar
                 let btnDeletar = document.createElement("button");
-                btnDeletar.textContent = "Deletar";
-                btnDeletar.classList.add("btn", "btn-danger", "btn-sm");
+                btnDeletar.classList.add("btn", "btn-outline-danger", "btn-sm");
+                btnDeletar.innerHTML = `<i class="bi bi-trash"></i> Deletar`;
                 btnDeletar.onclick = function () {
                     deletarAluno(aluno.id);
                 };
