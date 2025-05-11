@@ -1,35 +1,97 @@
  
 // rendizar lista de emprestimos
 function criarListaTurmas(data){
-    let lista = document.getElementById("listaTurmas");
-    lista.innerHTML = "";
-    data.forEach(turma => {
-        let item = document.createElement("li");
-        item.textContent = `ID: ${turma.id} - Número da Sala: ${turma.numeroSala} - Sigla: ${turma.sigla}
-            - Professor: ${turma.professor?.nome || "sem nome"} - Alunos: ${turma.aluno?.nome || "sem nome"}`; // Se o nome no banco de dados for null, entao ele retorna "sem nome"
-            // se existir um nome apenas exibe o nome. Evitando assim erro
+   let colunas = document.getElementById("colunas");
+        let lista = document.getElementById("listaTurmas");
+        lista.innerHTML = "";
+        colunas.innerHTML = "";
+            
+        //colunas
+            let idColun = document.createElement("th");
+            idColun.scope = "col";
+            idColun.textContent = "Id";
+
+            let nomeColun = document.createElement("th");
+            nomeColun.scope = "col";
+            nomeColun.textContent = "Nome da Turma";
+
+            let siglaColun = document.createElement("th");
+            siglaColun.scope = "col";
+            siglaColun.textContent = "Sigla";
+
+            let numeroColun = document.createElement("th");
+            numeroColun.scope = "col";
+            numeroColun.textContent = "Número da Sala";
+
+            let professorColun = document.createElement("th");
+            professorColun.scope = "col";
+            professorColun.textContent = "Professor";
+
+            let acoesColun = document.createElement("th");
+            acoesColun.scope = "col";
+            acoesColun.textContent = "Ações";
+
+            colunas.appendChild(idColun);
+            colunas.appendChild(nomeColun);
+            colunas.appendChild(siglaColun);
+            colunas.appendChild(numeroColun);
+            colunas.appendChild(professorColun);
+            colunas.appendChild(acoesColun);
+
+        //linhas
+        data.forEach(turma => {
+             
+        let linha = document.createElement("tr");
         
-        // botão de editar
-        let btnLink = document.createElement("button");
-        btnLink.textContent = "Editar";
-        btnLink.target = "_blank";
-        btnLink.style.marginLeft = "10px";
-        btnLink.onclick = function() {
-            window.open(`turmaEdit.html?id=${turma.id}`, '_blank');
-        };
-        item.appendChild(btnLink);
+        // Colunas: ID, Nome, CPF
+            let id = document.createElement("th");
+            id.scope = "row"; // Acessibilidade
+            id.textContent = turma.id;
+        
+            let nome = document.createElement("td");
+            nome.textContent = turma.nome;
+        
+            let sigla = document.createElement("td");
+            sigla.textContent = turma.sigla;
 
-        // botão de editar
-        let btnDeletar = document.createElement("button")
-        btnDeletar.textContent = "Deletar";
-        btnDeletar.style.marginLeft = "10px";
-        btnDeletar.onclick = function(){
-            deletarTurma(turma.id)
-        }
-        item.appendChild(btnDeletar);
+            let numero = document.createElement("td");
+            numero.textContent = turma.numeroSala;
 
-        lista.appendChild(item);
-    });
+            let professor = document.createElement("td");
+            professor.textContent = turma.nomeProfessor || "Sem professor";
+
+        
+            linha.appendChild(id);
+            linha.appendChild(nome);
+            linha.appendChild(sigla);
+            linha.appendChild(numero);
+            linha.appendChild(professor);
+        
+        // Botão Editar
+            let tdEditar = document.createElement("td"); // célula para o botão
+            let btnEditar = document.createElement("button");
+              
+            btnEditar.classList.add("btn", "btn-warning", "btn-sm", "me-2");
+            btnEditar.innerHTML = `<i class="bi bi-pencil-square"></i> Editar`;
+            btnEditar.onclick = function () {
+                window.open(`turmaEdit.html?id=${turma.id}`, "_blank");
+            };
+            tdEditar.appendChild(btnEditar);
+        
+        // Botão Deletar
+            let btnDeletar = document.createElement("button");
+            btnDeletar.classList.add("btn", "btn-outline-danger", "btn-sm");
+            btnDeletar.innerHTML = `<i class="bi bi-trash"></i> Deletar`;
+            btnDeletar.onclick = function () {
+                deletarTurma(turma.id);
+            };
+            tdEditar.appendChild(btnDeletar);
+        
+            linha.appendChild(tdEditar);
+        
+        // Adiciona a linha completa à tabela
+            lista.appendChild(linha);
+        });
 }
 
 // preencher o campo select, com os clientes que estão no banco de dados
@@ -46,21 +108,27 @@ function criarCampoSelectProfessor(data){
 
 // criar CheckBox dos livros que estão salvos no banco de dados
 function criarCheckBoxAlunos(data){
-    // Pegando o form
-    const form = document.getElementById("turmaForm");
+     const container = document.getElementById("alunosContainer");
+    container.innerHTML = ""; // limpa conteúdo anterior se houver
 
-    // Cria os checkboxes
     data.forEach(aluno => {
+        let wrapper = document.createElement("div");
+        wrapper.classList.add("form-check", "mb-2");
+
         let checkbox = document.createElement("input");
+        checkbox.classList.add("form-check-input");
         checkbox.type = "checkbox";
         checkbox.name = "alunos";
-        checkbox.value = aluno.id; // colocar o value do checkbox como o id do livro
+        checkbox.value = aluno.id;
 
-        let texto = document.createTextNode(` ${livro.nome}`);
-        
-        form.insertBefore(checkbox, form.lastElementChild);
-        form.insertBefore(texto, form.lastElementChild);
-        form.insertBefore(document.createElement("br"), form.lastElementChild);
+        let label = document.createElement("label");
+        label.classList.add("form-check-label");
+        label.textContent = aluno.nome;
+
+        wrapper.appendChild(checkbox);
+        wrapper.appendChild(label);
+
+        container.appendChild(wrapper);
     });
 }
 
@@ -122,7 +190,7 @@ function criarObjetoTurma(){
         numeroSala: document.getElementById("numeroSala").value,
         nome: document.getElementById("nomeTurma").value,
         professor:{
-            id: document.getElementById("professorSelect").value
+            id: parseInt(document.getElementById("professorSelect").value)
         },
         alunos: alunosSelecionados
     };
@@ -158,27 +226,34 @@ async function postTurma(event) {
 
 // buscar lista de emprestimos
 async function getTurma() {
-
-    let nomeBusca = document.getElementById("nomeBusca").value; // acrecentando filtro de nome a busca, caso necessário
+    let nome = document.getElementById("nomeBusca").value;
+    const url = `http://localhost:8080/turma?nome=${nome}`;
+    console.log("Fazendo requisição para:", url);
 
     try {
-        let response = await fetch(`http://localhost:8080/turma?nome=${nomeBusca}`, {
-        method: "GET",
-            headers: { "Content-Type": "application/json" },
+        const response = await fetch(url, {
+            method: "GET",
+            headers: { "Content-Type": "application/json" }
         });
 
-        if(!response.ok){
-            alert("Erro do back-end" + response.status)
-            return
+        console.log("Status da resposta:", response.status);
+
+        if (!response.ok) {
+            console.error("Erro HTTP:", response.status);
+            alert("Erro do back-end: " + response.status);
+            return;
         }
 
-        let data = await response.json()
+        const data = await response.json();
+        console.log("Resposta JSON:", data);
 
         criarListaTurmas(data);
     } catch (error) {
-        alert("Erro na requisição: " + error.message)
+        console.error("Erro na requisição:", error);
+        alert("Erro na requisição: " + error.message);
     }
 }
+
 
 // deletar emprestimo
 async function deletarTurma(id) {
@@ -205,5 +280,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     getAlunos() // buscar os clientes disponíveis no sistema, assim que a página carregar
     await getProfessores() // buscar os livros disponíveis no sistema assim que a página carregar
     document.getElementById("turmaForm").addEventListener("submit", postTurma);
-    document.getElementById("turmaBusca").addEventListener("click", getTurma);
+   document.getElementById("turmaBusca").addEventListener("submit", function(e) {
+    e.preventDefault();
+    getTurma();
+});
+
 });

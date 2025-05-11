@@ -1,40 +1,124 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Cadastro de Turma</title>
-    <script src="turmaJs.js" defer></script>
+<title>Cadastro de Turma</title>
+<script src="turmaJs.js" defer></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<style>
+    body{
+        min-height: 100vh;
+        background: linear-gradient(135deg, #0d1b2a, #1b263b, #415a77); /* tons de azul escuro ao claro */
+        background-attachment: fixed;
+        background-size: cover;
+        color: white; /* para contraste com fundo escuro */
+        font-family: Arial, sans-serif;
+    }
+    .table-bg{
+        background: linear-gradient(180deg, #e0f7fa, #bbdefb); /* ciano claro para azul claro */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        border-radius: 10px 10px 0 0;
+        width: 50%;
+        color: #1b263b;  
+    }
+    .org-nav{
+        display: flex;
+        justify-content: space-evenly;
+        font-size: larger;
+        font-weight: bold;    
+    }
+    .nav-item{
+        transition: all 0.3s ease;
+    }
+    .nav-item:hover{
+        text-decoration: underline;
+            text-shadow:
+            0 0 5px #00ffff,
+            0 0 10px #00ffff,
+            0 0 20px #00ffff,
+            0 0 40px #00ffff;
+    }
+</style>
 </head>
+<header>
+ <nav class="navbar navbar-expand-lg sticky-top shadow" style="background-color: #1b263b;">
+    <div class="container-fluid d-flex align-items-center justify-content-between">
+    
+    <!-- Logo com ícone escolar -->
+    <a class="navbar-brand d-flex align-items-center text-white fs-4" href="#">
+      <img src="https://images.vexels.com/media/users/3/224234/isolated/preview/ff7c525c1c3e1bef640644542001e1fd-logotipo-da-escola-online.png?w=360" alt="Gestão Escolar" width="35" height="35" class="me-2">
+      Gestão Escolar
+    </a>
+
+    <!-- Menu -->
+    <ul class="navbar-nav d-flex flex-row gap-4 fs-4">
+      <li class="nav-item">
+        <a class="nav-link active text-white" aria-current="page" href="/TelaAluno/aluno.html">Cadastro de Alunos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="/TelaProfessor/professor.html">Cadastro de Professor</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="/TelaTurma/turma.html">Turma</a>
+      </li>
+    </ul>
+    </div>
+  </nav>
+</header>
 <body>
-    <h2>Cadastrar Turma</h2>
-    <form id="turmaForm">
-
-        <label>Nome da Turma:</label>
-        <input type="text" name="nomeTurma" id="nomeTurma" required><br><br>
-
-        <label>Sigla:</label>
-        <input type="text" name="sigla" id="sigla" required><br><br>
-        
-        <label>Número da Sala:</label>
-        <input type="Number" name="numeroSala" id="numeroSala" required><br><br>
-
-        <label>Professor:</label>
-        <select name="professorId" id="professorSelect" required="true">
-
-            <option >Select...</option>
+    <form id="turmaForm" class="m-5">
+        <h2>Criar Turma</h2>
+        <br>
+        <div class="mb-3">
+            <label for="nomeTurma" class="form-label">Nome da Turma</label>
+            <input type="text" class="form-control" id="nomeTurma" aria-describedby="nomeHelp">
+            <div id="nomeHelp" class="form-text text-white">Digite o nome completo.</div>
+        </div>
+        <div class="mb-3">
+            <label for="sigla" class="form-label">Sigla</label>
+            <input type="text" class="form-control" id="sigla">
+        </div>
+            <div class="mb-3">
+            <label for="numeroSala" class="form-label">Número da Sala</label>
+            <input type="number" class="form-control" id="numeroSala">
+        </div>
+        <br>
+         </div>
+            <div class="mb-3">
+            <label for="professorId" class="form-label">Professor</label>
+            <select name="professorId" id="professorSelect" required="true">
+            <option >Selecione...</option>
         </select><br><br>
+        </div>
+         <label class="form-label">Alunos:</label><br>
+         <div id="alunosContainer" class="mb-4"></div>
+         <button type="submit" class="btn btn-primary mt-4">Enviar</button>
     </form>
 
-        <label> Alunos: </label><br>
-        
-        <button type="submit">Enviar</button>
+    <hr>
 
-        <h2>Lista de Turmas:</h2>
-        <form id="turmaBusca">
-            <label>Nome da Turma:</label>
-            <input type="text" name="nomeBusca" id="nomeBusca"><br><br>
-            <button type="submit">Carregar Turmas</button>
-        </form>
-     <ul id="listaTurmas"></ul>
-
+    <form id="turmaBusca" class="m-5">
+        <h2>Turmas Criadas</h2>
+        <br>
+        <div class="mb-3">
+        <label for="nomeBusca" class="form-label">Nome da Turma</label>
+        <input type="text" class="form-control" name="nomeBusca" id="nomeBusca" aria-describedby="nomeHelp">
+        <div id="nomeHelp" class="form-text text-white">Encontre uma turma pelo nome.</div>
+        </div>
+        <br>
+        <button type="submit" class="btn btn-primary">Carregar Turmas</button>
+    </form>
+    <br>
+    <hr>
+    <div class="m-5">
+    <table class="text-blue table-bg table-striped-columns">
+      <thead class="text-center">
+        <tr id="colunas">    
+        </tr>
+      </thead>
+      <tbody id="listaTurmas" class="text-center"> 
+      </tbody>
+      </table> 
+    </div>    
 </body>
 </html>

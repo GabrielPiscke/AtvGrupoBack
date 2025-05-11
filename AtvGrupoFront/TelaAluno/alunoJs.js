@@ -42,6 +42,7 @@
         function criarListaDeAlunos(data) {
             let colunas = document.getElementById("colunas");
             let lista = document.getElementById("listaAlunos");
+           
             lista.innerHTML = "";
             colunas.innerHTML = "";
             
@@ -112,7 +113,10 @@
         
                 // Adiciona a linha completa à tabela
                 lista.appendChild(linha);
+      
             });
+          
+
         }
         
         async function getAlunos(event) {
