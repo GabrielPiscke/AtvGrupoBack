@@ -60,7 +60,7 @@
 
                 let acoesColun = document.createElement("th");
                 acoesColun.scope = "col";
-                acoesColun.textContent = "Acões";
+                acoesColun.textContent = "Ações";
 
                 colunas.appendChild(idColun);
                 colunas.appendChild(nomeColun);

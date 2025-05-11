@@ -22,8 +22,9 @@
   color: #1b263b;  
 }
 .org-nav{
-    margin-left: 30px;
-    font-size: x-large;
+    display: flex;
+    justify-content: space-evenly;
+    font-size: larger;
     font-weight: bold;    
 }
 .nav-item{
@@ -40,26 +41,30 @@
 </style>
 </head>
 <header>
- <nav class="navbar navbar-expand-lg" style="background-color: #1b263b;">
-  <div class="org-nav">
-    <div class="container-fluid">
-     
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link active text-white" aria-current="page" href="/TelaAluno/aluno.html">Cadastro de Alunos</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white" href="/TelaProfessor/professor.html">Cadastro de Professor</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link text-white" href="/TelaTurma/turma.html">Turma</a>
-          </li>
-        </ul>
+ <nav class="navbar navbar-expand-lg sticky-top shadow" style="background-color: #1b263b;">
+    <div class="container-fluid d-flex align-items-center justify-content-between">
+    
+    <!-- Logo com ícone escolar -->
+    <a class="navbar-brand d-flex align-items-center text-white fs-4" href="#">
+      <img src="https://images.vexels.com/media/users/3/224234/isolated/preview/ff7c525c1c3e1bef640644542001e1fd-logotipo-da-escola-online.png?w=360" alt="Gestão Escolar" width="35" height="35" class="me-2">
+      Gestão Escolar
+    </a>
+
+    <!-- Menu -->
+    <ul class="navbar-nav d-flex flex-row gap-4 fs-4">
+      <li class="nav-item">
+        <a class="nav-link active text-white" aria-current="page" href="/TelaAluno/aluno.html">Cadastro de Alunos</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="/TelaProfessor/professor.html">Cadastro de Professor</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link text-white" href="/TelaTurma/turma.html">Turma</a>
+      </li>
+    </ul>
     
     </div>
-  </div>
-</nav>
-
+  </nav>
 </header>
 <body>
   

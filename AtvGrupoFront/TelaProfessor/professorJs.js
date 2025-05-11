@@ -35,31 +35,78 @@ async function postProfessor(event) {
 
 
 function criarListaDeProfessores(data) {
-    let lista = document.getElementById("listaProfessores");
-    lista.innerHTML = ""; 
+    let colunas = document.getElementById("colunas");
+        let lista = document.getElementById("listaProfessores");
+        lista.innerHTML = "";
+        colunas.innerHTML = "";
+            
+        //colunas
+            let idColun = document.createElement("th");
+            idColun.scope = "col";
+            idColun.textContent = "Id";
 
-    data.forEach(professor => {
-        let item = document.createElement("li");
-        item.textContent = `ID: ${professor.id} - Nome: ${professor.nome} - Sobrenome: ${professor.sobrenome}`;
+            let nomeColun = document.createElement("th");
+            nomeColun.scope = "col";
+            nomeColun.textContent = "Nome";
 
-        let btnEditar = document.createElement("button");
-        btnEditar.textContent = "Editar";
-        btnEditar.style.marginLeft = "10px";
-        btnEditar.onclick = function () {
-            window.open(`professorEdit.html?id=${professor.id}`, '_blank');
-        };
-        item.appendChild(btnEditar); 
+            let sobrenomeColun = document.createElement("th");
+            sobrenomeColun.scope = "col";
+            sobrenomeColun.textContent = "Sobrenome";
 
-        let btnDeletar = document.createElement("button");
-        btnDeletar.textContent = "Deletar";
-        btnDeletar.style.marginLeft = "10px";
-        btnDeletar.onclick = function () {
-            deletarProfessor(professor.id);
-        };
-        item.appendChild(btnDeletar);
+            let acoesColun = document.createElement("th");
+            acoesColun.scope = "col";
+            acoesColun.textContent = "Ações";
 
-        lista.appendChild(item);
-    });
+            colunas.appendChild(idColun);
+            colunas.appendChild(nomeColun);
+            colunas.appendChild(sobrenomeColun);
+            colunas.appendChild(acoesColun);
+
+        //linhas
+        data.forEach(professor => {
+             
+            let linha = document.createElement("tr");
+        
+        // Colunas: ID, Nome, CPF
+            let id = document.createElement("th");
+            id.scope = "row"; // Acessibilidade
+            id.textContent = professor.id;
+        
+            let nome = document.createElement("td");
+            nome.textContent = professor.nome;
+        
+            let sobrenome = document.createElement("td");
+            sobrenome.textContent = professor.sobrenome;
+        
+            linha.appendChild(id);
+            linha.appendChild(nome);
+            linha.appendChild(sobrenome);
+        
+        // Botão Editar
+            let tdEditar = document.createElement("td"); // célula para o botão
+            let btnEditar = document.createElement("button");
+              
+            btnEditar.classList.add("btn", "btn-warning", "btn-sm", "me-2");
+            btnEditar.innerHTML = `<i class="bi bi-pencil-square"></i> Editar`;
+            btnEditar.onclick = function () {
+                window.open(`professorEdit.html?id=${professor.id}`, "_blank");
+            };
+            tdEditar.appendChild(btnEditar);
+        
+        // Botão Deletar
+            let btnDeletar = document.createElement("button");
+            btnDeletar.classList.add("btn", "btn-outline-danger", "btn-sm");
+            btnDeletar.innerHTML = `<i class="bi bi-trash"></i> Deletar`;
+            btnDeletar.onclick = function () {
+                deletarProfessor(professor.id);
+            };
+            tdEditar.appendChild(btnDeletar);
+        
+            linha.appendChild(tdEditar);
+        
+        // Adiciona a linha completa à tabela
+            lista.appendChild(linha);
+        });
 }
 
 async function getProfessor() {
